@@ -213,6 +213,7 @@
 
 	function server_check() {
 		let prop = $('.select').val();
+		
 		var topHtml = '';
 		var bottomHtml = '';
 		$.ajax({
