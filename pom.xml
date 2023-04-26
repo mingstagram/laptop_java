@@ -11,11 +11,18 @@
 	<artifactId>rfid_innotek2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>rfid_innotek2</name>
+	<packaging>war</packaging>
 	<description>rfid_innotek 2.0version</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
+	<dependency>
+    <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+      <scope>provided</scope> <!-- 안되어 있는 경우 변경! -->
+</dependency>
+	
 		<!-- 시큐리티 태그 라이브러리 -->
 		<!--
 		<dependency>

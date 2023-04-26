@@ -5,7 +5,8 @@ server:
     encoding:
       charset: UTF-8
       enabled: true
-      force: true 
+      force: true  
+      
 
 spring:
   mvc:
@@ -22,16 +23,16 @@ spring:
     username: root
     password: 1111
   jpa:
-    open-in-view: true
+    open-in-view: true #true #false
     hibernate:
       ddl-auto: update #update #create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         # physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy 
       use-new-id-generator-mappings: false
-    show-sql: true
+    show-sql: false #true #false
     properties:
-      hibernate.format_sql: true
+      hibernate.format_sql: true #true #false
 
   jackson:
     serialization:

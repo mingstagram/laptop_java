@@ -1,7 +1,5 @@
 package com.laptop.rfid_innotek2.service;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,12 +9,8 @@ import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.laptop.rfid_innotek2.dto.EventHistoryListInterface;
-import com.laptop.rfid_innotek2.dto.EventHistorySearchReqDto;
-import com.laptop.rfid_innotek2.dto.EventHistorySpecification;
 import com.laptop.rfid_innotek2.model.Criteria;
 import com.laptop.rfid_innotek2.model.EventHistory;
 import com.laptop.rfid_innotek2.repository.EventHistoryRepository;

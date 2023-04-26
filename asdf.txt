@@ -24,9 +24,7 @@ agent restapi 구현완료(연동 완료)
  등록 노트북 조회 -  엑셀 업로드 완료(속도, insert update 기능 보완해야함)
  common.js - reset_devide() 장비로그 insert  
 
-- 진행중 
-main.jsp 1초 새로고침시 UI 에러 수정 해야함.
-
+- 진행중  
  
 - 진행예정
 

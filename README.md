@@ -1,4 +1,4 @@
-# lg_laptop_java
+# laptop_java
 
 노트북 자산반출 V1.0 java version
 
