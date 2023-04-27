@@ -198,8 +198,10 @@ public class ResponseApiController {
 		System.out.println(">>> " + agent_id);
 		if(agent_id != null && !agent_id.equals("")) {
 
-			String remoteAddr = commonService.getRemoteAddr(req); 
-			AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr);
+			String remoteAddr = commonService.getRemoteAddr(req);  
+			remoteAddr = "192.168.0.45";
+			System.out.println(">>> "+  remoteAddr);
+			AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr); 
 			if(agent != null) {
 				int id = agent.getId();
 				SystemInfo system = systemInfoService.systemInfo(id); 
