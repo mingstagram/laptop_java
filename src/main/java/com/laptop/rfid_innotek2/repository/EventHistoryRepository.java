@@ -15,22 +15,22 @@ import com.laptop.rfid_innotek2.model.EventHistory;
 public interface EventHistoryRepository extends JpaRepository<EventHistory, Integer>, JpaSpecificationExecutor<EventHistory> {
 
 	
-	@Query(value = "SELECT * FROM eventhistory ORDER BY datetime DESC LIMIT 2", nativeQuery = true)
+	@Query(value = "SELECT * FROM EventHistory ORDER BY datetime DESC LIMIT 2", nativeQuery = true)
 	List<EventHistory> historyTop2List();
 	
-	@Query(value = "SELECT * FROM eventhistory ORDER BY datetime DESC LIMIT 30", nativeQuery = true)
+	@Query(value = "SELECT * FROM EventHistory ORDER BY datetime DESC LIMIT 30", nativeQuery = true)
 	List<EventHistory> historyTop30List();
 	
-	@Query(value = "SELECT * FROM eventhistory WHERE agent=? ORDER BY datetime DESC LIMIT 2", nativeQuery = true)
+	@Query(value = "SELECT * FROM EventHistory WHERE agent=? ORDER BY datetime DESC LIMIT 2", nativeQuery = true)
 	List<EventHistory> historyTop2List(int agent);
 	
-	@Query(value = "SELECT * FROM eventhistory WHERE agent=? ORDER BY datetime DESC LIMIT 30", nativeQuery = true)
+	@Query(value = "SELECT * FROM EventHistory WHERE agent=? ORDER BY datetime DESC LIMIT 30", nativeQuery = true)
 	List<EventHistory> historyTop30List(int agent); 
 	 
-	@Query(value= "SELECT * FROM eventHistory ORDER BY datetime DESC LIMIT ?, ?", nativeQuery = true)
+	@Query(value= "SELECT * FROM EventHistory ORDER BY datetime DESC LIMIT ?, ?", nativeQuery = true)
 	List<EventHistory> page(int startPage, int pageSize);
 	
-	@Query(value= "SELECT count(*) FROM eventHistory WHERE 1 = 1 AND (bizDeptCd = :bizDeptCd) AND result IN :result", nativeQuery = true)
+	@Query(value= "SELECT count(*) FROM EventHistory WHERE 1 = 1 AND (bizDeptCd = :bizDeptCd) AND result IN :result", nativeQuery = true)
 	Integer searchCount(@Param("bizDeptCd") String bizDeptCd, 
 											@Param("result") String result);
 	
@@ -53,7 +53,7 @@ public interface EventHistoryRepository extends JpaRepository<EventHistory, Inte
 //			+ "a.bizDeptCd,\r\n"
 //			+ "e.datetime,\r\n"
 //			+ "e.result\r\n"
-//			+ "FROM eventhistory e\r\n"
+//			+ "FROM EventHistory e\r\n"
 //			+ "LEFT JOIN admagent a \r\n"
 //			+ "ON e.agent_id = a.id\r\n"
 //			+ "LEFT JOIN laptopinfo l\r\n"

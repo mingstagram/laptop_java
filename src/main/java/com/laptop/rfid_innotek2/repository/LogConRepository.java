@@ -10,7 +10,7 @@ import com.laptop.rfid_innotek2.model.LogCon;
 
 public interface LogConRepository extends JpaRepository<LogCon, Integer> {
 
-	@Query(value = "SELECT * FROM logcon WHERE agent=? ORDER BY DATETIME DESC;", nativeQuery = true)
+	@Query(value = "SELECT * FROM LogCon WHERE agent=? ORDER BY DATETIME DESC;", nativeQuery = true)
 	List<LogCon> LogConListByAgentId(int agent_id);
 	
 }

@@ -7,7 +7,7 @@ import com.laptop.rfid_innotek2.model.SystemInfo;
 
 public interface SystemInfoRepository extends JpaRepository<SystemInfo, Integer> {
 
-	@Query(value = "SELECT * FROM systeminfo WHERE agentId = ? ORDER BY DATETIME DESC LIMIT 1", nativeQuery = true)
+	@Query(value = "SELECT * FROM SystemInfo WHERE agentId = ? ORDER BY DATETIME DESC LIMIT 1", nativeQuery = true)
 	SystemInfo systemInfo(int id);
 	
 }
