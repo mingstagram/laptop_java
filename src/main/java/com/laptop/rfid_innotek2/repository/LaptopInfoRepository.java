@@ -24,21 +24,21 @@ public interface LaptopInfoRepository extends JpaRepository<LaptopInfo, Integer>
 	int getUserId(int id);
 	
 	//바코드,사번,사원명,RFID
-	@Query(value= "SELECT count(*) FROM LaptopInfo l LEFT JOIN user u ON l.userId = u.id WHERE 1=1 AND (l.barcode LIKE %:keyword% OR u.userNo LIKE %:keyword% OR u.username LIKE %:keyword% OR l.rfid LIKE %:keyword%)", nativeQuery = true)
+	@Query(value= "SELECT count(*) FROM LaptopInfo l LEFT JOIN User u ON l.userId = u.id WHERE 1=1 AND (l.barcode LIKE %:keyword% OR u.userNo LIKE %:keyword% OR u.username LIKE %:keyword% OR l.rfid LIKE %:keyword%)", nativeQuery = true)
 	Integer findBySearchCount(@Param("keyword") String keyword);
 	
 	@Query(value= "SELECT l.id, l.userId, u.userNo, u.userPart, u.username, l.asset, l.serial, l.barcode, l.rfid\r\n"
-			+ "FROM LaptopInfo l LEFT JOIN user u ON l.userId = u.id WHERE 1=1 \r\n"
+			+ "FROM LaptopInfo l LEFT JOIN User u ON l.userId = u.id WHERE 1=1 \r\n"
 			+ "AND (l.barcode LIKE %:keyword% OR u.userNo LIKE %:keyword% OR u.username LIKE %:keyword% OR l.rfid LIKE %:keyword%)\r\n"
 			+ "ORDER BY l.datetime DESC LIMIT :start, :page", nativeQuery = true)
 	List<LaptopSearchListInterface> findBySearch(@Param("keyword") String keyword, @Param("start") int startPage, @Param("page") int pageSize);
 	
 	@Query(value= "SELECT l.id, l.userId, u.userNo, u.userPart, u.username, l.asset, l.serial, l.barcode, l.rfid\r\n"
-			+ "FROM LaptopInfo l LEFT JOIN user u ON l.userId = u.id ORDER BY l.datetime DESC", nativeQuery = true)
+			+ "FROM LaptopInfo l LEFT JOIN User u ON l.userId = u.id ORDER BY l.datetime DESC", nativeQuery = true)
 	List<LaptopSearchListInterface> findAllByOrderByDatetimeDesc();
 	
 	@Query(value= "SELECT l.id, l.userId, u.userNo, u.userPart, u.username, l.asset, l.serial, l.barcode, l.rfid\r\n"
-			+ "FROM LaptopInfo l LEFT JOIN user u ON l.userId = u.id WHERE 1=1 \r\n"
+			+ "FROM LaptopInfo l LEFT JOIN User u ON l.userId = u.id WHERE 1=1 \r\n"
 			+ "AND (l.barcode LIKE %:keyword% OR u.userNo LIKE %:keyword% OR u.username LIKE %:keyword% OR l.rfid LIKE %:keyword%)\r\n"
 			+ "ORDER BY l.datetime DESC", nativeQuery = true)
 	List<LaptopSearchListInterface> findBySearch(@Param("keyword") String keyword);
