@@ -246,6 +246,7 @@ public class ResponseApiController {
 				
 				map.put("result_code", 0);
 				map.put("result", result); 
+				System.out.println(">>> " + map);
 				 
 				return map;
 			}
