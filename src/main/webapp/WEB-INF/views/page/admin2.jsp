@@ -38,6 +38,7 @@ $("#reg").click(function() {
 		data: JSON.stringify(data),
         success: function(data) { 
             reset_devide(data.data);
+            alert("변경 완료.");
             location.href="/systemInfo/admin2";
         }
     }).fail(function() {});

@@ -107,10 +107,10 @@
 	</div>
 
 
-	<div id=top_table_box class=zoom_box>
+	<div id=top_table_box>
 		<ul id=top_table>
 			<div class=xray_box>
-				<span class=xray_box_title>Xray</span>
+				<span class=xray_box_title >Xray</span>
 				<c:forEach var="topHistory" items="${topHistoryList}">
 					<c:if test="${topHistory.result eq 'Y'}">
 						<li class="border_green radius10">
@@ -243,6 +243,9 @@
 			$("#table_contents").css({
 				"height" : "840px"
 			});
+			$("#title_zoom").css({
+				"zoom" : 1.3
+			});
 		} else if (level === "2") {
 			$(".zoom_box").css({
 				"zoom" : 0.7
@@ -252,6 +255,9 @@
 			});
 			$("#table_contents").css({
 				"height" : "650px"
+			});
+			$("#title_zoom").css({
+				"zoom" : 1.1
 			});
 		} else if (level === "3") {
 			$(".zoom_box").css({
@@ -263,6 +269,9 @@
 			$("#table_contents").css({
 				"height" : "520px"
 			});
+			$("#title_zoom").css({
+				"zoom" : 1
+			});
 		} else if (level === "4") {
 			$(".zoom_box").css({
 				"zoom" : 0.9
@@ -273,6 +282,9 @@
 			$("#table_contents").css({
 				"height" : "410px"
 			});
+			$("#title_zoom").css({
+				"zoom" : 0.9
+			});
 		} else if (level === "5") {
 			$(".zoom_box").css({
 				"zoom" : 1.0
@@ -282,6 +294,9 @@
 			});
 			$("#table_contents").css({
 				"height" : "320px"
+			});
+			$("#title_zoom").css({
+				"zoom" : 0.8
 			});
 		}
 	}
@@ -322,6 +337,9 @@
 			$("#table_contents").css({
 				"height" : "840px"
 			});
+			$("#title_zoom").css({
+				"zoom" : 1.3
+			});
 		} else if (zoom === "2") {
 			$(".zoom_box").css({
 				"zoom" : 0.7
@@ -331,6 +349,9 @@
 			});
 			$("#table_contents").css({
 				"height" : "650px"
+			});
+			$("#title_zoom").css({
+				"zoom" : 1.1
 			});
 		} else if (zoom === "3") {
 			$(".zoom_box").css({
@@ -342,6 +363,9 @@
 			$("#table_contents").css({
 				"height" : "520px"
 			});
+			$("#title_zoom").css({
+				"zoom" : 1
+			});
 		} else if (zoom === "4") {
 			$(".zoom_box").css({
 				"zoom" : 0.9
@@ -352,6 +376,9 @@
 			$("#table_contents").css({
 				"height" : "410px"
 			});
+			$("#title_zoom").css({
+				"zoom" : 0.9
+			});
 		} else if (zoom === "5") {
 			$(".zoom_box").css({
 				"zoom" : 1.0
@@ -361,6 +388,9 @@
 			});
 			$("#table_contents").css({
 				"height" : "320px"
+			});
+			$("#title_zoom").css({
+				"zoom" : 0.8
 			});
 		}
 	});
