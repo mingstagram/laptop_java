@@ -39,23 +39,8 @@ SELECT id, alert_blue, alert_blue_sound, alert_ip, alert_port, alert_red, alert_
 TRUNCATE TABLE SystemInfo;
 INSERT INTO SystemInfo (id, datetime, set1, set2, set3, set4, agentId)
 SELECT id, datetime, set1, set2, set3, set4, agent FROM adm_set2;
-```
-
-#### event_history -> EventHistory
-```
-TRUNCATE TABLE EventHistory;
-INSERT INTO EventHistory (id, agent, antenaNo, barcode, bizDeptCd, datetime, errorCode, result, rfid, userNo, username, xray)
-SELECT 
-e.id, e.agent, e.antena_num, b.u_code, a.bizDeptCd, e.datetime, err_code, result, e.rfid, u.u_num, u.u_name, e.xray_id
-FROM event_history e
-LEFT JOIN br_match b
-ON e.rfid = b.u_rfid
-LEFT JOIN users u
-ON b.u_num = u.u_num
-LEFT JOIN admagent a
-ON e.agent = a.id;
-```
-
+``` 
+ 
 #### br_match -> LaptopInfo
 ```
 TRUNCATE TABLE LaptopInfo;
@@ -81,4 +66,36 @@ INSERT INTO LogCon (id, agent, agentIp, agentPort, datetime, etc)
 SELECT 
 id, agent_id, agent_ip, agent_port, datetime, etc
 FROM log_con
+```
+
+
+#### event_history -> EventHistory
+```
+TRUNCATE TABLE EventHistory;
+INSERT INTO EventHistory (id, agent, antenaNo, barcode, bizDeptCd, bizDeptText, datetime, errorCode, result, rfid, userNo, username, xray)
+SELECT 
+e.id, e.agent, e.antena_num, b.u_code, a.bizDeptCd
+,CASE
+	WHEN a.bizDeptCd = '07'
+	THEN '파주'
+	WHEN a.bizDeptCd = '03'
+	THEN '안산'
+	WHEN a.bizDeptCd = '01'
+	THEN '광주'
+	WHEN a.bizDeptCd = '02'
+	THEN '구미'
+	WHEN a.bizDeptCd = '04'
+	THEN '평택'
+	WHEN a.bizDeptCd = '18'
+	THEN '마곡'
+	ELSE '미등록'
+END AS bizDeptText
+, e.datetime, err_code, result, e.rfid, u.u_num, u.u_name, e.xray_id
+FROM event_history e
+LEFT JOIN br_match b
+ON e.rfid = b.u_rfid
+LEFT JOIN users u
+ON b.u_num = u.u_num
+LEFT JOIN adm_agent a
+ON e.agent = a.id;
 ```
