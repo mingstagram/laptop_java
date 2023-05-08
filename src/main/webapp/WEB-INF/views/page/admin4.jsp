@@ -43,7 +43,7 @@
 				</div>
 			</div>
 		</div>
-		<div id=table_contents3>
+		<div id=table_contents3 style="height:750px;">
 			<ul class="admin4_table table_title tables">
 				<li><input id=cbx_chkAll type=checkbox></li>
 				<li>No</li>

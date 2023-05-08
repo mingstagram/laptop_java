@@ -78,7 +78,7 @@
 					</div>
 				</div>
 			</div>
-			<div id=table_contents3>
+			<div id=table_contents3 style="height:750px;">
 				<ul class="admin1_table table_title tables">
 					<li>Agent</li>
 					<li>Xray</li>
