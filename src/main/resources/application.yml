@@ -25,7 +25,7 @@ spring:
   jpa:
     open-in-view: true #true #false
     hibernate:
-      ddl-auto: update #update #create
+      ddl-auto: create #update #create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         # physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy 

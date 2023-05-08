@@ -27,7 +27,7 @@ public class LogConService {
 		if(agent != null) Query += " AND agent=" + agent;
 		Query += " ORDER BY DATETIME DESC";
 		TypedQuery<LogCon> typeQuery = em.createQuery(Query, LogCon.class); 
-		List<LogCon> resultList = typeQuery.getResultList();
+		List<LogCon> resultList = typeQuery.setMaxResults(100).getResultList();
 		return resultList;
 	}
 	

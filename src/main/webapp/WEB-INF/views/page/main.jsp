@@ -109,11 +109,11 @@
 
 	<div id=top_table_box>
 		<ul id=top_table>
-			<div class=xray_box>
+			<div class="xray_box" >
 				<span class=xray_box_title >Xray</span>
 				<c:forEach var="topHistory" items="${topHistoryList}">
 					<c:if test="${topHistory.result eq 'Y'}">
-						<li class="border_green radius10">
+						<li class="border_green radius10 zoom_box">
 							<div id=top_top_box>
 								<div id=gate_name>gate1</div>
 							</div>
@@ -124,7 +124,7 @@
 						</li>
 					</c:if>
 					<c:if test="${topHistory.result eq 'S'}">
-						<li class="border_yellow radius10">
+						<li class="border_yellow radius10 zoom_box">
 							<div id=top_top_box>
 								<div id=gate_name>gate1</div>
 							</div>
@@ -135,7 +135,7 @@
 						</li>
 					</c:if>
 					<c:if test="${topHistory.result eq 'N'}">
-						<li class="border_red radius10">
+						<li class="border_red radius10 zoom_box">
 							<div id=top_top_box>
 								<div id=gate_name>gate1</div>
 							</div>
@@ -146,7 +146,7 @@
 						</li>
 					</c:if>
 					<c:if test="${topHistory.result eq ''}">
-						<li class="border_red radius10">
+						<li class="border_red radius10 zoom_box">
 							<div id=top_top_box>
 								<div id=gate_name>gate1</div>
 							</div>
