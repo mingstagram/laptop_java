@@ -107,13 +107,15 @@
 	</div>
 
 
-	<div id=top_table_box>
+	<div id=top_table_box class="zoom_box">
 		<ul id=top_table>
+		
 			<div class="xray_box" >
-				<span class=xray_box_title >Xray</span>
+				<span class="xray_box_title" >Xray</span>
+				<div id=xray_contents>
 				<c:forEach var="topHistory" items="${topHistoryList}">
 					<c:if test="${topHistory.result eq 'Y'}">
-						<li class="border_green radius10 zoom_box">
+						<li class="border_green radius10">
 							<div id=top_top_box>
 								<div id=gate_name>gate1</div>
 							</div>
@@ -124,7 +126,7 @@
 						</li>
 					</c:if>
 					<c:if test="${topHistory.result eq 'S'}">
-						<li class="border_yellow radius10 zoom_box">
+						<li class="border_yellow radius10">
 							<div id=top_top_box>
 								<div id=gate_name>gate1</div>
 							</div>
@@ -135,7 +137,7 @@
 						</li>
 					</c:if>
 					<c:if test="${topHistory.result eq 'N'}">
-						<li class="border_red radius10 zoom_box">
+						<li class="border_red radius10">
 							<div id=top_top_box>
 								<div id=gate_name>gate1</div>
 							</div>
@@ -146,7 +148,7 @@
 						</li>
 					</c:if>
 					<c:if test="${topHistory.result eq ''}">
-						<li class="border_red radius10 zoom_box">
+						<li class="border_red radius10">
 							<div id=top_top_box>
 								<div id=gate_name>gate1</div>
 							</div>
@@ -158,12 +160,13 @@
 					</c:if>
 
 				</c:forEach>
+				</div>
 			</div>
 		</ul>
 	</div>
 	<div id=main_bottom>
 		<div id=main_bottom_in class=zoom_box>
-			<ul class="main_table table_title">
+			<ul class="main_table table_title" style="background:#474747">
 				<li>사번</li>
 				<li>성명</li>
 				<li>바코드</li>
@@ -176,11 +179,9 @@
 
 				<c:forEach var="mainHistory" items="${mainHistoryList}">
 
-					<ul class="main_table">
-						<!-- <li><?php echo $i++?></li> -->
+					<ul class="main_table"> 
 						<li>${mainHistory.userNo}</li>
-						<li>${mainHistory.username}</li>
-						<!-- <li><?php echo $users[u_pos];?></li> -->
+						<li>${mainHistory.username}</li> 
 						<li>${mainHistory.barcode}</li>
 						<li>Xray ${mainHistory.xray}</li>
 						<li>${mainHistory.datetime }</li>
@@ -206,8 +207,9 @@
 	$(document).ready(function() { 
 		let prop = $('.select').val();
 		//server_check();
+		console.log(prop);
 		zoomLevel(prop);
-		//server_now = setInterval(server_check, 1000);  
+		//server_now = setInterval(server_check, 1000);   
 		setInterval(() => {server_check()}, 1000);
 	}); 
 
@@ -224,9 +226,9 @@
 			data : {
 			//dir : dir
 			},
-			success : function(data) {
-				$('#top_table_box').load(' #top_table_box');
-				$('#table_contents').load(' #table_contents');
+			success : function(data) { 
+				$('#xray_contents').load(' #xray_contents').trigger("create");
+				$('#table_contents').load(' #table_contents').trigger("create");
 			}
 		}).fail(function() {
 		});
@@ -236,68 +238,68 @@
 		if (level === "1") {
 			$(".zoom_box").css({
 				"zoom" : 0.6
-			});
+			}); 
+			$(".xray_box_title").css({
+				"zoom" : 1.4
+			}); 
 			$(".table_title").css({
 				"zoom" : 1.4
-			});
+			}); 
 			$("#table_contents").css({
-				"height" : "840px"
-			});
-			$("#title_zoom").css({
-				"zoom" : 1.3
-			});
+				"height" : "810px"
+			}); 
 		} else if (level === "2") {
 			$(".zoom_box").css({
 				"zoom" : 0.7
-			});
+			}); 
+			$(".xray_box_title").css({
+				"zoom" : 1.2
+			}); 
 			$(".table_title").css({
 				"zoom" : 1.2
 			});
 			$("#table_contents").css({
-				"height" : "650px"
-			});
-			$("#title_zoom").css({
-				"zoom" : 1.1
-			});
+				"height" : "640px"
+			}); 
 		} else if (level === "3") {
 			$(".zoom_box").css({
 				"zoom" : 0.8
-			});
+			});  
+			$(".xray_box_title").css({
+				"zoom" : 1
+			}); 
 			$(".table_title").css({
 				"zoom" : 1
 			});
 			$("#table_contents").css({
-				"height" : "520px"
-			});
-			$("#title_zoom").css({
-				"zoom" : 1
-			});
+				"height" : "510px"
+			}); 
 		} else if (level === "4") {
 			$(".zoom_box").css({
 				"zoom" : 0.9
-			});
+			}); 
+			$(".xray_box_title").css({
+				"zoom" : 0.9
+			}); 
 			$(".table_title").css({
 				"zoom" : 0.9
 			});
 			$("#table_contents").css({
 				"height" : "410px"
-			});
-			$("#title_zoom").css({
-				"zoom" : 0.9
-			});
+			}); 
 		} else if (level === "5") {
 			$(".zoom_box").css({
 				"zoom" : 1.0
-			});
+			}); 
+			$(".xray_box_title").css({
+				"zoom" : 0.8
+			}); 
 			$(".table_title").css({
 				"zoom" : 0.8
 			});
 			$("#table_contents").css({
-				"height" : "320px"
-			});
-			$("#title_zoom").css({
-				"zoom" : 0.8
-			});
+				"height" : "330px"
+			}); 
 		}
 	}
 
@@ -317,7 +319,7 @@
 				},
 				success : function(data) {
 					alert("저장 완료");
-					location.href="/eventHistory/main";
+					location.reload(true);
 				}
 			}).fail(function() {
 				alert("텅신실패");
@@ -325,73 +327,73 @@
 		}
 	});
 
-	$(".select").change(function() {
+	$(".select").change(function() { 
 		var zoom = $(this).val();
 		if (zoom === "1") {
 			$(".zoom_box").css({
 				"zoom" : 0.6
-			});
+			}); 
+			$(".xray_box_title").css({
+				"zoom" : 1.4
+			}); 
 			$(".table_title").css({
 				"zoom" : 1.4
 			});
 			$("#table_contents").css({
-				"height" : "840px"
-			});
-			$("#title_zoom").css({
-				"zoom" : 1.3
-			});
+				"height" : "810px"
+			}); 
 		} else if (zoom === "2") {
 			$(".zoom_box").css({
 				"zoom" : 0.7
-			});
+			}); 
+			$(".xray_box_title").css({
+				"zoom" : 1.2
+			}); 
 			$(".table_title").css({
 				"zoom" : 1.2
 			});
 			$("#table_contents").css({
-				"height" : "650px"
-			});
-			$("#title_zoom").css({
-				"zoom" : 1.1
-			});
+				"height" : "640px"
+			}); 
 		} else if (zoom === "3") {
 			$(".zoom_box").css({
 				"zoom" : 0.8
-			});
+			}); 
+			$(".xray_box_title").css({
+				"zoom" : 1
+			}); 
 			$(".table_title").css({
 				"zoom" : 1
 			});
 			$("#table_contents").css({
-				"height" : "520px"
-			});
-			$("#title_zoom").css({
-				"zoom" : 1
-			});
+				"height" : "510px"
+			}); 
 		} else if (zoom === "4") {
 			$(".zoom_box").css({
 				"zoom" : 0.9
-			});
+			}); 
+			$(".xray_box_title").css({
+				"zoom" : 0.9
+			}); 
 			$(".table_title").css({
 				"zoom" : 0.9
 			});
 			$("#table_contents").css({
 				"height" : "410px"
-			});
-			$("#title_zoom").css({
-				"zoom" : 0.9
-			});
+			}); 
 		} else if (zoom === "5") {
 			$(".zoom_box").css({
 				"zoom" : 1.0
-			});
+			}); 
+			$(".xray_box_title").css({
+				"zoom" : 0.8
+			}); 
 			$(".table_title").css({
 				"zoom" : 0.8
 			});
 			$("#table_contents").css({
-				"height" : "320px"
-			});
-			$("#title_zoom").css({
-				"zoom" : 0.8
-			});
+				"height" : "330px"
+			}); 
 		}
 	});
 </script>

@@ -86,7 +86,7 @@ public class EventHistoryController {
 				eventList =eventHistoryService.historyList(cri, agent);  
 			} 
 			
-			pageMaker.setTotalCount(count); 
+			pageMaker.setTotalCount(count);  
 			 
 			model.addAttribute("searchYn", false);
 			model.addAttribute("count", count);
@@ -113,8 +113,7 @@ public class EventHistoryController {
 				eventList =eventHistoryService.historySearchList(bizDeptCd, result, keyword, sdate, edate, cri, agent); 
 			} 
 
-			pageMaker.setTotalCount(count); 
-			
+			pageMaker.setTotalCount(count);  
 			model.addAttribute("searchYn", true);
 			model.addAttribute("count", count);
 			model.addAttribute("bizDeptCd", bizDeptCd);

@@ -62,6 +62,7 @@ public class EventHistoryService {
 	public List<EventHistory> historyList(Criteria cri, String agent){
 		String Query = "SELECT e FROM EventHistory e WHERE 1 = 1";
 		if(agent != null) Query += " AND agent=" + agent;
+		Query += " ORDER BY datetime DESC";
 		TypedQuery<EventHistory> typeQuery = em.createQuery(Query, EventHistory.class); 
 		List<EventHistory> resultList = typeQuery.setFirstResult(cri.getPageStart()).setMaxResults(cri.getPerPageNum()).getResultList();
 		
