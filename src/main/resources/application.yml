@@ -24,20 +24,20 @@ spring:
       password: 1234
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/kol3?serverTimezone=Asia/Seoul
     username: root
     password: 1111
   jpa:
     open-in-view: true #true #false
     hibernate:
-      ddl-auto: update #update #create
+      ddl-auto: create #update #create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         # physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy 
       use-new-id-generator-mappings: false
-    show-sql: true #true #false
+    show-sql: false #true #false
     properties:
-      hibernate.format_sql: false #true #false
+      hibernate.format_sql: true #true #false
 
   jackson:
     serialization:

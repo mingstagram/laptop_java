@@ -1,31 +1,29 @@
 package com.laptop.rfid_innotek2.controller;
  
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import com.laptop.rfid_innotek2.dto.EventHistorySearchReqDto;
 import com.laptop.rfid_innotek2.model.Criteria;
 import com.laptop.rfid_innotek2.model.EventHistory;
 import com.laptop.rfid_innotek2.model.PageMaker;
 import com.laptop.rfid_innotek2.service.AdmMemberService;
 import com.laptop.rfid_innotek2.service.CommonService;
 import com.laptop.rfid_innotek2.service.EventHistoryService;
-import com.laptop.rfid_innotek2.util.PageModule;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Controller
-public class EventHistoryController { 
+public class EventHistoryController {  
 	
 	@Autowired
 	CommonService commonService;
@@ -37,25 +35,24 @@ public class EventHistoryController {
 	EventHistoryService eventHistoryService;
 	
 	@GetMapping("/eventHistory/main")
-	public String main(Model model) { 
-		
+	public String main(Model model) {  
 		String agent_id_str = commonService.getCookie("agent_id");
 		int agent_id = Integer.parseInt(agent_id_str);
 		
 		List<EventHistory> topHistoryList = new ArrayList<>();
 		List<EventHistory> mainHistoryList = new ArrayList<>();
 		
-		String username = commonService.getCookie("username");
+		String username = commonService.getCookie("username"); 
 		if(username.equals("admin")) {
-			// 슈퍼관리자 인경우 전체 보기 
+			// 슈퍼관리자 인경우 전체 보기  
 			topHistoryList = eventHistoryService.mainTopHistoryList();
 			mainHistoryList = eventHistoryService.mainBottomHistoryList();
-		} else { 
+		} else {  
 			topHistoryList = eventHistoryService.mainTopHistoryList(agent_id);
 			mainHistoryList = eventHistoryService.mainBottomHistoryList(agent_id);
 		} 
 		model.addAttribute("topHistoryList", topHistoryList);
-		model.addAttribute("mainHistoryList", mainHistoryList);
+		model.addAttribute("mainHistoryList", mainHistoryList);  
 		return "page/main";
 	}
 	
@@ -68,7 +65,7 @@ public class EventHistoryController {
 			String sdate,
 			String edate,
 			Criteria cri ) {  
-		
+		log.info("□□□□□□□□□□ [/eventHistory/search1] START □□□□□□□□□□"); 
 		String username = commonService.getCookie("username");
 		String agent = commonService.getCookie("agent_id");
 		List<EventHistory> eventList = new ArrayList<>(); 
@@ -124,7 +121,7 @@ public class EventHistoryController {
 			model.addAttribute("pageMaker", pageMaker);
 		}
 		
-		
+		log.info("□□□□□□□□□□ [/eventHistory/search1] END □□□□□□□□□□"); 
 		return "page/search1";
 	} 
 

@@ -15,6 +15,9 @@ import com.laptop.rfid_innotek2.model.Criteria;
 import com.laptop.rfid_innotek2.model.EventHistory;
 import com.laptop.rfid_innotek2.repository.EventHistoryRepository;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Service
 public class EventHistoryService {
 	
@@ -53,9 +56,10 @@ public class EventHistoryService {
 	}
 	
 	public int historyCount(String agent) {
+		log.info("□□□□□□□□□□ [historyCount] START □□□□□□□□□□"); 
 		String Query = "SELECT e FROM EventHistory e WHERE 1 = 1";
 		if(agent != null) Query += " AND agent=" + agent;
-		
+		log.info("□□□□□□□□□□ [historyCount] END □□□□□□□□□□"); 
 		return em.createQuery(Query).getResultList().size();
 	}
 	
