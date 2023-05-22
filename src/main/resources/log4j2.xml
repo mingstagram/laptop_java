@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
+ 
+<configuration status="DEBUG">
+ 
     <Appenders>
-		<Console name="console" target="SYSTEM_OUT">
-		    <PatternLayout pattern="%d %5p [%c] %m%n" />
-		</Console>
-		<RollingFile name="file" fileName="D:/rfidLog/${date:yyyy}/${date:MM}/dailyLog.log"
-								filePattern="D:/rfidLog/${date:yyyy}/${date:MM}/dailyLog_%d{yyyyMMdd}.log">
-			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-			<Policies>
-				<TimeBasedTriggeringPolicy />
-			</Policies>
-		</RollingFile>
+        <!-- 콜솔 -->
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd hh:mm:ss} %5p [%c] %m%n"/>
+        </Console>
+        
+        <!-- 파일  -->
+        <RollingFile name ="RollingFile">
+            <FileName>C:/log/mylog.txt</FileName>
+            <FilePattern>C:/log/%d{yyyy-MM-dd-hh-mm}/mylog.zip</FilePattern>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %5p [%c] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval = "1" modulate = "true"/>
+            </Policies>
+        </RollingFile>
+        
+        <RollingFile name ="RollingFileError">
+            <FileName>C:/log/mylog_error.txt</FileName>
+            <FilePattern>C:/log/%d{yyyy-MM-dd-hh-mm}/mylog_error.zip</FilePattern>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %5p [%c] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval = "1" modulate = "true"/>
+            </Policies>
+        </RollingFile>
+        
     </Appenders>
-    <Loggers>
-		<Logger name="java.sql" level="OFF" additivity="false">  <!--OFF    DEBUG   ERROR   INFO  -->
-			<AppenderRef ref="console" />
-		</Logger>
-		<Logger name="egovframework" level="DEBUG" additivity="false">
-			<AppenderRef ref="console" />
-		</Logger>
-		<Logger name="jdbc.sqltiming" level="OFF" additivity="false">
-			<AppenderRef ref="console" />
-		</Logger>
-		<Logger name="org.springframework" level="INFO" additivity="false">
-			<AppenderRef ref="console" />
-		</Logger>
-		<Root level="ERROR">
-			<AppenderRef ref="console" />
-			<AppenderRef ref="file"/>
-		</Root>
-    </Loggers>
-</Configuration>
+    
+    <loggers>
+        <root level="debug" additivity="true">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="RollingFileError" level = "ERROR"/>
+        </root>
+    </loggers>
+    
+</configuration> 

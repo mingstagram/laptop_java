@@ -23,7 +23,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope> <!-- 안되어 있는 경우 변경! -->
-		</dependency> 
+		</dependency>  
 
 		<!-- 시큐리티 태그 라이브러리 -->
 		<!--

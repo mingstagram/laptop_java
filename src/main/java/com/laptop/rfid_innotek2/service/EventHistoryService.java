@@ -56,7 +56,7 @@ public class EventHistoryService {
 	}
 	
 	public int historyCount(String agent) {
-		log.info("□□□□□□□□□□ [historyCount] START □□□□□□□□□□"); 
+		log.info("□□□□□□□□□□ [historyCount] START □□□□□□□□□□");  
 		String Query = "SELECT e FROM EventHistory e WHERE 1 = 1";
 		if(agent != null) Query += " AND agent=" + agent;
 		log.info("□□□□□□□□□□ [historyCount] END □□□□□□□□□□"); 
