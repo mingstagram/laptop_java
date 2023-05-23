@@ -197,12 +197,11 @@ public class ResponseApiController {
 		String agent_id = resDto.getAgent_id(); 
 		if(agent_id != null && !agent_id.equals("")) {
 
-			String remoteAddr = commonService.getRemoteAddr(req);  
-			remoteAddr = "192.168.0.45"; 
+			String remoteAddr = commonService.getRemoteAddr(req);   
 			AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr); 
 			if(agent != null) {
 				int id = agent.getId();
-				SystemInfo system = systemInfoService.systemInfo(id); 
+				SystemInfo system = systemInfoService.systemInfo(id);  
 				HashMap<Object, Object> result = new HashMap<>();
 				
 				HashMap<Object, Object> map = new HashMap<>();
