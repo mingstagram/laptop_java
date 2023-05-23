@@ -31,8 +31,7 @@ public class AdmSetApiController {
 	}
 
 	@PutMapping("/api/updateAdmSet/{id}")
-	public ResponseDto<Integer> updateAdmSet(@RequestBody AdmSetSaveReqDto setDto, @PathVariable int id) {
-		System.out.println("setDto >>> " + setDto.toString());
+	public ResponseDto<Integer> updateAdmSet(@RequestBody AdmSetSaveReqDto setDto, @PathVariable int id) { 
 		admSetService.update(setDto, id);
 		int agent_id = setDto.getAgentId();
 		return new ResponseDto<Integer>(HttpStatus.OK, agent_id);

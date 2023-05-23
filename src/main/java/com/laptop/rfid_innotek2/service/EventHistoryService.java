@@ -68,8 +68,7 @@ public class EventHistoryService {
 		if(agent != null) Query += " AND agent=" + agent;
 		Query += " ORDER BY datetime DESC";
 		TypedQuery<EventHistory> typeQuery = em.createQuery(Query, EventHistory.class); 
-		List<EventHistory> resultList = typeQuery.setFirstResult(cri.getPageStart()).setMaxResults(cri.getPerPageNum()).getResultList();
-		
+		List<EventHistory> resultList = typeQuery.setFirstResult(cri.getPageStart()).setMaxResults(cri.getPerPageNum()).getResultList(); 
 		return resultList;
 	}
 	

@@ -408,7 +408,7 @@ public class CommonService {
 		String fileName = kind;
 		if(fileName.equals("laptop_search_list")) fileName = "laptop_list";
 		String encFileName = fileName;
-		logger.info(">>> [" + fileName + "] 엑셀 다운로드 시작.");
+		logger.info("[" + fileName + "] 엑셀 다운로드 시작.");
 
 		try {
 			Workbook workbook = null;
@@ -420,7 +420,7 @@ public class CommonService {
 			workbook.write(outs);
 
 		} catch (Exception e) {
-			logger.error(">>> [" + fileName + "] 엑셀 다운로드 도중 오류가 발생했습니다. : {}", e);
+			logger.error("[" + fileName + "] 엑셀 다운로드 도중 오류가 발생했습니다. : {}", e);
 			e.printStackTrace();
 
 			response.reset();
@@ -431,7 +431,7 @@ public class CommonService {
 			pout.println("</script>");
 			pout.flush();
 		} finally {
-			logger.info(">>> [" + fileName + "] 엑셀 다운로드 종료.");
+			logger.info("[" + fileName + "] 엑셀 다운로드 종료.");
 			if (outs != null)
 				outs.close();
 			response.getOutputStream().flush();

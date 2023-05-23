@@ -28,8 +28,7 @@ public class LaptopInfoController {
 	public String search2(Model model, 
 			@PageableDefault(page = 0, size = 10, sort = "datetime", direction = Direction.DESC) Pageable pageable,
 			Criteria cri,
-			String keyword) {
-		System.out.println(">>>> " + keyword);
+			String keyword) { 
 		
 		if (keyword != null && !keyword.equals("")){
 			PageMaker pageMaker = new PageMaker();

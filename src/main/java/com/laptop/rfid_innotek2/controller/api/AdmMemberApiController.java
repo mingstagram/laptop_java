@@ -56,8 +56,7 @@ public class AdmMemberApiController {
 	}
 	
 	@PostMapping("/api/insertAdmMember")
-	public ResponseDto<Integer> insertAdmMember(@RequestBody AdmMemberSaveReqDto admMemberDto){
-		 System.out.println(">>>> "+ admMemberDto.toString());
+	public ResponseDto<Integer> insertAdmMember(@RequestBody AdmMemberSaveReqDto admMemberDto){ 
 		admMemberService.saveAdmMember(admMemberDto); 
 		int agent_id = admMemberDto.getAgentId();
 		return new ResponseDto<>(HttpStatus.OK, agent_id);

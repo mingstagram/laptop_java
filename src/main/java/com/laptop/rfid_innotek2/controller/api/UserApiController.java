@@ -16,13 +16,11 @@ public class UserApiController {
 	UserService userService;
 	
 	@PostMapping("/api/loadUserName")
-	public ResponseDto<String> loadUserName(String u_num){
-		System.out.println(">>> " + u_num);
+	public ResponseDto<String> loadUserName(String u_num){ 
 		User user = userService.findByUserNo(u_num);
 		String username = "";
 		if(user != null) username = user.getUsername();
-		
-		System.out.println(">>>> " + username);
+		 
 		return new ResponseDto<String>(HttpStatus.OK, username);
 		
 	}

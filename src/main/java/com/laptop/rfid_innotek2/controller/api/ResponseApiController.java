@@ -93,7 +93,7 @@ public class ResponseApiController {
 			// Http 요청하기
 			ResponseEntity<String> response = rt.exchange(
 //						"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
-						"http://127.0.0.1:8000/api/receive",
+						"http://localhost:8001/api/receive",
 						HttpMethod.POST,
 						rfidInfo,
 						String.class
@@ -194,13 +194,11 @@ public class ResponseApiController {
 //	@PostMapping("/api/control_device_info")
 	@PostMapping("/rest/control_device_info.php")
 	public Object control_device_info(@RequestBody IsmsResDto resDto, HttpServletRequest req) { 
-		String agent_id = resDto.getAgent_id();
-		System.out.println(">>> " + agent_id);
+		String agent_id = resDto.getAgent_id(); 
 		if(agent_id != null && !agent_id.equals("")) {
 
 			String remoteAddr = commonService.getRemoteAddr(req);  
-			remoteAddr = "192.168.0.45";
-			System.out.println(">>> "+  remoteAddr);
+			remoteAddr = "192.168.0.45"; 
 			AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr); 
 			if(agent != null) {
 				int id = agent.getId();
@@ -247,8 +245,7 @@ public class ResponseApiController {
 				result.put("device_info", device_info); 
 				
 				map.put("result_code", 0);
-				map.put("result", result); 
-				System.out.println(">>> " + map);
+				map.put("result", result);  
 				 
 				return map;
 			}

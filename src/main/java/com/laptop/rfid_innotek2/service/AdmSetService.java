@@ -48,8 +48,7 @@ public class AdmSetService {
 	@Transactional
 	public int update(AdmSetSaveReqDto setDto, int id) {
 		int result = 0;
-		AdmAgent agent = admAgentRepository.customFindById(setDto.getAgentId());
-		System.out.println(">>> " +setDto.getAgentId());
+		AdmAgent agent = admAgentRepository.customFindById(setDto.getAgentId()); 
 		AdmSet set = admSetRepository.findById(id).get();
 		if (set != null) {
 			set.setAdmAgent(agent);

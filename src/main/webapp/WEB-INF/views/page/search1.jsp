@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../layout/header.jsp"%>
@@ -73,7 +74,7 @@ a:visited {
 				<li>${history.barcode}</li>
 				<li title="${history.rfid}">${history.rfid}</li>
 				<li>${history.bizDeptText}</li>
-				<li>${history.datetime}</li>
+				<li><fmt:formatDate value="${history.datetime }" pattern="yyyy-MM-dd HH:mm:ss"/></li>
 				<c:choose>
 					<c:when test="${history.result eq 'Y' || history.result eq 'S' }">
 						<li>승인</li>

@@ -102,8 +102,7 @@ public class UtilApiController {
 		total = laptopInfoService.laptopCount();
 		
 		for (Map<String, Object> map : paramList) {
-			userCount = userService.findUserCount(String.valueOf(map.get("사번"))); 
-			System.out.println(">>> " + userCount);
+			userCount = userService.findUserCount(String.valueOf(map.get("사번")));  
 			if(userCount == 0) { 
 				LaptopSaveReqDto saveDto = new LaptopSaveReqDto();
 				saveDto.setAsset(String.valueOf(map.get("PC자산번호")));

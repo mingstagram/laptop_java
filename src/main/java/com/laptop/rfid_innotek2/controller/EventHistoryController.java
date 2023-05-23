@@ -46,7 +46,7 @@ public class EventHistoryController {
 		if(username.equals("admin")) {
 			// 슈퍼관리자 인경우 전체 보기  
 			topHistoryList = eventHistoryService.mainTopHistoryList();
-			mainHistoryList = eventHistoryService.mainBottomHistoryList();
+			mainHistoryList = eventHistoryService.mainBottomHistoryList(); 
 		} else {  
 			topHistoryList = eventHistoryService.mainTopHistoryList(agent_id);
 			mainHistoryList = eventHistoryService.mainBottomHistoryList(agent_id);

@@ -90,8 +90,7 @@ public class RequestApiController {
 	public Object send_reset_device_info(@RequestBody AgentReqDto agentReqDto) {
 		System.out.println(agentReqDto);
 		int agent_id = agentReqDto.getXray_id();
-		AdmAgent agent = 	admAgentService.findByAgent(agent_id);
-		System.out.println(">D>D " + agent.getId());
+		AdmAgent agent = 	admAgentService.findByAgent(agent_id); 
 		String agent_ip = agent.getAgentIp();
 		String agent_port = agent.getAgentPort(); 
 		
@@ -123,10 +122,8 @@ public class RequestApiController {
 //	@PostMapping("/api/get_device_state")
 	@PostMapping("/rest/get_device_state.php")
 	public Object get_device_state(@RequestBody AgentResDto agentResDto) throws Exception {
-		String agent = agentResDto.getAgent();
-		System.out.println(">>>> " + agent);
-		if(agent != null && !agent.equals("")) {
-			System.out.println("11111111111111");
+		String agent = agentResDto.getAgent(); 
+		if(agent != null && !agent.equals("")) { 
 			int agentId = Integer.parseInt(agent);
 			
 			AdmAgent admAgent = admAgentService.findTopByIdOrderByDatetimeDesc(agentId);
@@ -159,12 +156,10 @@ public class RequestApiController {
 			System.out.println(response.getBody());
 			AgentResDto resDto = objectMapper.readValue(response.getBody(), AgentResDto.class);
 //			RfidDeviceDto resDto1 = objectMapper.readValue(resDto.toString(), RfidDeviceDto.class);
-			if(resDto.getRfid_device() != null) {
-				System.out.println("22222222222");
+			if(resDto.getRfid_device() != null) { 
 				String device_address = (String) resDto.getRfid_device().get(0).get("device_address");
 				int device_lamp_state = (int) resDto.getRfid_device().get(0).get("device_lamp_state");
-				int device_state = (int) resDto.getRfid_device().get(0).get("device_state");
-				System.out.println(">>> " + resDto.getRfid_device().get(0));
+				int device_state = (int) resDto.getRfid_device().get(0).get("device_state"); 
 				Map<String, Object> result = new HashMap<>(); 
 				if(device_lamp_state == 1 && resDto != null) {
 					result.put("antena_result", "connected");
@@ -178,8 +173,7 @@ public class RequestApiController {
 					result.put("alert_result", "fail");
 				}
 				return result;
-			} else {
-				System.out.println("3333333");
+			} else { 
 				Map<String, Object> result = new HashMap<>(); 
 				result.put("antena_result", "fail");
 				result.put("alert_result", "fail");

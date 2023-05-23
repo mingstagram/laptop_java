@@ -21,8 +21,7 @@ public class SystemInfoController {
 	// 시스템 설정
 	@GetMapping("/systemInfo/admin2")
 	public String admin2(Model model) {
-		String agent_id_str = commonService.getCookie("agent_id");
-		System.out.println(" >>>>>>>>>>> " + agent_id_str);
+		String agent_id_str = commonService.getCookie("agent_id"); 
 		int id = Integer.parseInt(agent_id_str);
 		SystemInfo system = systemInfoService.systemInfo(id); 
 		model.addAttribute("system", system);
