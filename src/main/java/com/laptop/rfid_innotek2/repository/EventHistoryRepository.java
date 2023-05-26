@@ -38,7 +38,7 @@ public interface EventHistoryRepository extends JpaRepository<EventHistory, Inte
 	List<EventHistory> findAllByOrderByDatetimeDesc();
 	
 	@Modifying
-	@Query(value="DELETE FROM EventHistory WHERE id <= (SELECT id FROM (SELECT id FROM EventHistory ORDER BY id desc LIMIT 10000,1) AS s1)", nativeQuery = true)
+	@Query(value="DELETE FROM EventHistory WHERE id <= (SELECT id FROM (SELECT id FROM EventHistory ORDER BY id desc LIMIT 100000,1) AS s1)", nativeQuery = true)
 	int limitDelete();
 	
 //	Page<EventHistory> findAll(Specification<EventHistory> spec, Pageable pageable);
