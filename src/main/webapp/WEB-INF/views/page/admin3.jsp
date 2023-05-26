@@ -108,8 +108,7 @@ $("#chk_del").click(function() {
         this_val = $(this).val();
         //alert(this_val)
         chk_Val.push(this_val);
-    });
-    alert(chk_Val);
+    }); 
     $.ajax({
         url: "/api/deleteAdmMember/"+chk_Val,
         type: 'DELETE',

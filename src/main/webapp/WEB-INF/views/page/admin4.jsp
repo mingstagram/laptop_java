@@ -94,8 +94,11 @@ $("#chk_del").click(function() {
             chk_Val: chk_Val,
         },
         success: function(data) {
-            location.reload();
-            server_check();
+        	if(confirm("해당 Agent를 삭제하시면 연결된 장비 정보와 관리자 정보도 함께 삭제됩니다.\n그래도 삭제하시겠습니까?")){
+        		 location.reload();
+                 server_check();
+        	}
+           
         }
     }).fail(function() {});
 });

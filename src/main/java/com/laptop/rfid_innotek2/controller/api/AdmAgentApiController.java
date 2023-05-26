@@ -33,8 +33,12 @@ public class AdmAgentApiController {
 	@PostMapping("/api/insertAdmAgent")
 	public  ResponseDto<Integer> insertAdmAgent(@RequestBody AdmAgentSaveReqDto agentDto){
 		AdmAgent agent = admAgentService.saveAgent(agentDto);
-		systemInfoService.insert(agent); 
-		int agent_id = agent.getId();
+		int agent_id = 0;
+		if(agent != null) {
+			systemInfoService.insert(agent); 
+			agent_id = agent.getId();
+		}
+		 
 		return new ResponseDto<>(HttpStatus.OK, agent_id);
 	}
 	

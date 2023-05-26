@@ -41,8 +41,11 @@ import com.laptop.rfid_innotek2.service.CommonService;
 import com.laptop.rfid_innotek2.service.EventHistoryService;
 import com.laptop.rfid_innotek2.service.LaptopInfoService;
 import com.laptop.rfid_innotek2.service.LogConService;
-import com.laptop.rfid_innotek2.service.SystemInfoService; 
+import com.laptop.rfid_innotek2.service.SystemInfoService;
 
+import lombok.extern.log4j.Log4j2; 
+
+@Log4j2
 @RestController
 public class ResponseApiController {
 	
@@ -92,8 +95,9 @@ public class ResponseApiController {
 			
 			// Http 요청하기
 			ResponseEntity<String> response = rt.exchange(
-//						"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
-						"http://localhost:8001/api/receive",
+//						"http://10.82.28.67:7011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
+//						"http://testisms.lginnotek.com:7011/",
+						"http://127.0.0.1/api/receive",
 						HttpMethod.POST,
 						rfidInfo,
 						String.class
@@ -104,7 +108,7 @@ public class ResponseApiController {
 			
 
 			String remoteAddr = commonService.getRemoteAddr(req);
-			
+			log.info("□□□□□□□□□□ 접속 IP : " + remoteAddr + "□□□□□□□□□□");
 			AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr); 
 			int agent_id = agent.getId();
 			String agent_id_str = String.valueOf(agent_id);
@@ -180,9 +184,14 @@ public class ResponseApiController {
 	public Object receive(IsmsReqDto result) {  
 		
 		int random = (int)((Math.random()*10000)%10);
+		int random2 = (int)((Math.random()*10000)%10);
 		String flag = "Y"; 
-		if(random%2 == 1) flag = "Y";
-		else flag = "N";
+		if(random%2 == 1) {
+			flag = "Y";
+		} else {
+			if(random2%2 == 1) flag = "S"; 
+			else flag = "N";
+		}
 		IsmsResDto resDto = new IsmsResDto(); 
 		resDto.setErr_code(null);
 		resDto.setResult_code("200");

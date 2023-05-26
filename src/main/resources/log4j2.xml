@@ -1,44 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
- 
-<configuration status="DEBUG">
- 
+<Configuration status="INFO">
+
+    <Properties>
+        <Property name="logFileName">springStudy</Property>
+        <Property name="consoleLayout">%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable</Property>
+        <Property name="fileLayout">%d [%t] %-5level %c(%M:%L) - %m%n</Property>
+    </Properties>
+
     <Appenders>
-        <!-- 콜솔 -->
         <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{yyyy-MM-dd hh:mm:ss} %5p [%c] %m%n"/>
+            <PatternLayout pattern="${consoleLayout}" />
         </Console>
-        
-        <!-- 파일  -->
-        <RollingFile name ="RollingFile">
-            <FileName>C:/log/mylog.txt</FileName>
-            <FilePattern>C:/log/%d{yyyy-MM-dd-hh-mm}/mylog.zip</FilePattern>
-            <PatternLayout>
-                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %5p [%c] %m%n</Pattern>
-            </PatternLayout>
+        <RollingFile name="file" fileName="logs/${logFileName}.log" filePattern="logs/${logFileName}.%d{yyyy-MM-dd-hh}.log">
+            <PatternLayout pattern="${fileLayout}" />
             <Policies>
-                <TimeBasedTriggeringPolicy interval = "1" modulate = "true"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1" />
             </Policies>
+            <DefaultRolloverStrategy max="5" fileIndex="min" />
         </RollingFile>
-        
-        <RollingFile name ="RollingFileError">
-            <FileName>C:/log/mylog_error.txt</FileName>
-            <FilePattern>C:/log/%d{yyyy-MM-dd-hh-mm}/mylog_error.zip</FilePattern>
-            <PatternLayout>
-                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %5p [%c] %m%n</Pattern>
-            </PatternLayout>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval = "1" modulate = "true"/>
-            </Policies>
-        </RollingFile>
-        
     </Appenders>
-    
-    <loggers>
-        <root level="debug" additivity="true">
-            <AppenderRef ref="console"/>
-            <AppenderRef ref="RollingFile"/>
-            <AppenderRef ref="RollingFileError" level = "ERROR"/>
-        </root>
-    </loggers>
-    
-</configuration> 
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="file" />
+        </Root>
+    </Loggers>
+<typeAliases></typeAliases>
+</Configuration>

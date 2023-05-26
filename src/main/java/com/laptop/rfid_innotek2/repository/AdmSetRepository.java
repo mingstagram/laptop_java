@@ -16,4 +16,8 @@ public interface AdmSetRepository extends JpaRepository<AdmSet, Integer> {
 //	@Query(value = "SELECT * FROM AdmSet WHERE agentId=? ORDER BY datetime DESC", nativeQuery = true)
 	List<AdmSet> findByAdmAgentOrderByDatetimeDesc(AdmAgent admAgent);
 	
+	AdmSet findTopByAlertIp(String alertIp);
+	
+	AdmSet findTopByAntenaIp(String antenaIp);
+	
 }

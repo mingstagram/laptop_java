@@ -249,9 +249,13 @@ $("#adm_agent_save").click(function() {
 			data: JSON.stringify(data),
 			success: function(data) {
 				console.log(data);
-				reset_devide(data.data);
-				location.href="/admAgent/admin4";
-				//server_check();
+				if(data.data === 0){
+					alert("중복되는 ip입니다."); 
+					return;
+				} else {
+					reset_devide(data.data);
+					location.href="/admAgent/admin4";
+				} 
 
 			},
 		}).fail(function() { });
@@ -308,8 +312,13 @@ $("#btn_new").click(function() {
 			data: JSON.stringify(data),
 			success: function(data) {
 				console.log(data);
-				reset_devide(data.data);
-				location.href = "/admSet/admin1";
+				if(data.data > 0){
+					reset_devide(data.data);
+					location.href = "/admSet/admin1";
+				} else {
+					alert("경광등 또는 안테나 아이피가 중복입니다. \n아이피 주소를 확인해주세요.");
+					return;
+				} 
 				//server_check();
 
 			},

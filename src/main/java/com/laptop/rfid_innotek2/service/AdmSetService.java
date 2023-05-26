@@ -35,14 +35,27 @@ public class AdmSetService {
 	}
 
 	@Transactional
-	public void saveAdmSet(AdmSetSaveReqDto setDto) { 
-		AdmAgent agent = admAgentRepository.findById(setDto.getAgentId()).get();
-		AdmSet set = AdmSet.builder().admAgent(agent).xray(setDto.getXray()).antenaIp(setDto.getAntenaIp())
-				.antenaPort(setDto.getAntenaPort()).alertIp(setDto.getAlertIp()).alertPort(setDto.getAlertPort())
-				.alertBlue(setDto.getAlertBlue()).alertBlueSound(setDto.getAlertBlueSound())
-				.alertRed(setDto.getAlertRed()).alertRedSound(setDto.getAlertRedSound()).build();
+	public int saveAdmSet(AdmSetSaveReqDto setDto) { 
+		int result = 0;
+		String alertIp = setDto.getAlertIp();
+		String antenaIp = setDto.getAntenaIp();
+		AdmSet findSetByAlertIp = admSetRepository.findTopByAlertIp(alertIp);
+		AdmSet findSetByAntenaIp = admSetRepository.findTopByAntenaIp(antenaIp);
+		if(findSetByAlertIp != null) {
+			result = -1;  // 경광등 IP 중복
+		} else if(findSetByAntenaIp != null) {
+			result = -2; // Antena IP 중복 
+		} else {
+			AdmAgent agent = admAgentRepository.findById(setDto.getAgentId()).get();
+			AdmSet set = AdmSet.builder().admAgent(agent).xray(setDto.getXray()).antenaIp(setDto.getAntenaIp())
+					.antenaPort(setDto.getAntenaPort()).alertIp(setDto.getAlertIp()).alertPort(setDto.getAlertPort())
+					.alertBlue(setDto.getAlertBlue()).alertBlueSound(setDto.getAlertBlueSound())
+					.alertRed(setDto.getAlertRed()).alertRedSound(setDto.getAlertRedSound()).build();
 
-		admSetRepository.save(set);
+			admSetRepository.save(set);
+		}
+		
+		return result;
 	}
 
 	@Transactional

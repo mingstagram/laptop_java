@@ -25,9 +25,16 @@ public class AdmSetApiController {
 
 	@PostMapping("/api/insertAdmSet")
 	public ResponseDto<Integer> insertAdmSet(@RequestBody AdmSetSaveReqDto setDto) {
-		admSetService.saveAdmSet(setDto);
+
+		int result = admSetService.saveAdmSet(setDto);
 		int agent_id = setDto.getAgentId();
-		return new ResponseDto<Integer>(HttpStatus.OK, agent_id);
+		if(result == 0) {
+			return new ResponseDto<Integer>(HttpStatus.OK, agent_id);
+		} else {
+			return new ResponseDto<Integer>(HttpStatus.OK, result);
+		}
+		
+		
 	}
 
 	@PutMapping("/api/updateAdmSet/{id}")

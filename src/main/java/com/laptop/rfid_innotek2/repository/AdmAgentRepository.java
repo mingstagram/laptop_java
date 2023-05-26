@@ -15,6 +15,6 @@ public interface AdmAgentRepository extends JpaRepository<AdmAgent, Integer> {
 	AdmAgent findTopByIdOrderByDatetimeDesc(int agentId);
 	
 	@Query(value = "SELECT * FROM AdmAgent WHERE 1 = 1 AND id=?", nativeQuery = true)
-	AdmAgent customFindById(int id);
+	AdmAgent customFindById(int id); 
 	
 }

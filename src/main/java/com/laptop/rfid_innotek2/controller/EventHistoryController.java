@@ -68,6 +68,7 @@ public class EventHistoryController {
 		log.info("□□□□□□□□□□ [/eventHistory/search1] START □□□□□□□□□□"); 
 		String username = commonService.getCookie("username");
 		String agent = commonService.getCookie("agent_id");
+		log.info("search1 Controller : {}", username); 
 		List<EventHistory> eventList = new ArrayList<>(); 
 		int count = 0;
 		if(bizDeptCd == null && result == null && keyword == null && sdate == null && edate == null ) {

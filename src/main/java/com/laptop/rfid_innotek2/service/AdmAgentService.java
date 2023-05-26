@@ -37,12 +37,18 @@ public class AdmAgentService {
 	
 	@Transactional
 	public AdmAgent saveAgent(AdmAgentSaveReqDto agentDto) {
-		AdmAgent agent = new AdmAgent();
-		agent.setAgentIp(agentDto.getAgentIp());
-		agent.setAgentPort(agentDto.getAgentPort());
-		agent.setAgentNum(agentDto.getAgentNum());
-		agent.setBizDeptCd(agentDto.getBizDeptCd()); 
-		admAgentRepository.save(agent);
+		String agentIp = agentDto.getAgentIp();
+		AdmAgent findAgent = admAgentRepository.findTopByAgentIpOrderByDatetime(agentIp);
+		AdmAgent agent = new AdmAgent(); 
+		if(findAgent == null) {
+			agent.setAgentIp(agentDto.getAgentIp());
+			agent.setAgentPort(agentDto.getAgentPort());
+			agent.setAgentNum(agentDto.getAgentNum());
+			agent.setBizDeptCd(agentDto.getBizDeptCd()); 
+			admAgentRepository.save(agent);  
+		} else {
+			agent = null;
+		}
 		return agent;
 	}
 	

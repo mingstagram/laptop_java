@@ -53,7 +53,7 @@ public class AdmSet {
 	@CreationTimestamp
 	private Timestamp datetime;
 	
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "agentId", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private AdmAgent admAgent;
 	
