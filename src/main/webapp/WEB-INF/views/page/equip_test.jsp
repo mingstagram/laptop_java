@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../layout/header.jsp"%>
@@ -28,8 +29,8 @@
 						<li>${logCon.agent}</li>
 						<li>${logCon.agentIp}</li>
 						<li>${logCon.agentPort}</li>
-						<li>${logCon.etc}</li>
-						<li>${logCon.datetime}</li>
+						<li>${logCon.etc}</li> 
+						<li><fmt:formatDate value="${logCon.datetime }" pattern="yyyy-MM-dd HH:mm:ss"/></li>
 					</ul>
 				</c:forEach>
 			</div>

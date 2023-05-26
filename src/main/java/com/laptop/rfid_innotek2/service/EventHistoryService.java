@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,6 +54,11 @@ public class EventHistoryService {
 	
 	public void saveHistory(EventHistory history) {
 		eventHistoryRepository.save(history);
+	}
+	
+	@Transactional
+	public int limitDelete() {
+		return eventHistoryRepository.limitDelete();
 	}
 	
 	public int historyCount(String agent) {

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -35,6 +36,10 @@ public interface EventHistoryRepository extends JpaRepository<EventHistory, Inte
 											@Param("result") String result);
 	
 	List<EventHistory> findAllByOrderByDatetimeDesc();
+	
+	@Modifying
+	@Query(value="DELETE FROM EventHistory WHERE id <= (SELECT id FROM (SELECT id FROM EventHistory ORDER BY id desc LIMIT 10000,1) AS s1)", nativeQuery = true)
+	int limitDelete();
 	
 //	Page<EventHistory> findAll(Specification<EventHistory> spec, Pageable pageable);
 	

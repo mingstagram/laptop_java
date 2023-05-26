@@ -2,6 +2,7 @@ package com.laptop.rfid_innotek2.controller.api;
  
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +23,12 @@ public class EventHistoryApiController {
 	public ResponseDto<Integer> load(){ 
 		return new ResponseDto<>(HttpStatus.OK, 1);
 	} 
+	
+	@PostMapping("/eventHistory/limitDel")
+	public ResponseDto<Integer> limitDel(){
+		int result = 0;
+		result = eventHistoryService.limitDelete();
+		return new ResponseDto<>(HttpStatus.OK, result);
+	}
 	
 }
