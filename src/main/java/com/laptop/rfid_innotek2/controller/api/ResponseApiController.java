@@ -74,13 +74,13 @@ public class ResponseApiController {
 //	@PostMapping("/api/send_rfid_info")
 	@PostMapping("/rest/send_rfid_info.php")
 	public Map<String,Object> sendRfidInfo(@RequestBody IsmsResDto resData, HttpServletRequest req) throws Exception {
-		LaptopInfo laptop = laptopInfoService.laptopByRfid(resData.getTag_name());  
-		System.out.println(laptop.getUser().getUsername() + " - " + resData.getTag_name());
+		LaptopInfo laptop = laptopInfoService.laptopByRfid(resData.getTag_name());   
 		String barcode = "";
 		String enpNo = "";
 		String bizDeptCd = "";
 		Map<String, Object> result = new HashMap<>();
 		if(laptop != null) {
+			System.out.println(laptop.getUser().getUsername() + " - " + resData.getTag_name());
 			String remoteAddr = commonService.getRemoteAddr(req);
 //			log.info("□□□□□□□□□□ 접속 IP : " + remoteAddr + "□□□□□□□□□□");
 			AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr); 
