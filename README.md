@@ -10,6 +10,31 @@
 
 ## - 반영 완료
 
+## crontab
+
+
+```
+임의의 경로(/var/crontab)에 test.sh 생성
+
+vi test.sh
+
+#! /bin/bash
+curl -X POST http://127.0.0.1/eventHistory/limitDel
+
+
+sudo crontab -l : 리스트확인
+systemctl status crond : cron 상태 확인
+
+crontab -e 
+
+59 23 * * * /var/crontab/test.sh
+
+crontab 설정했으면 cron 재시작
+systemctl restart crond
+
+매일 23시 59분에 test.sh(EventHistory 테이블 10만건이 넘어가면 10만건을 제외한 나머지데이터 삭제) 실행
+
+```
 
 ## 테이블 변경 쿼리 (데이터 이동)
  
