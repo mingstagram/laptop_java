@@ -18,6 +18,11 @@ public class IsmsResDto {
 	private String tag_name;
 	
 	private String agent_id;
+
+	private String status;
+	private String empNm;
+	private String empId;
+	private String mediaLineId;
 	
 
 }
