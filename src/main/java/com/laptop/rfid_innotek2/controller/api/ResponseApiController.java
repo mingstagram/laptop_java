@@ -22,6 +22,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -75,40 +76,56 @@ public class ResponseApiController {
 	public Map<String,Object> sendRfidInfo(@RequestBody IsmsResDto resData, HttpServletRequest req) throws Exception {
 		LaptopInfo laptop = laptopInfoService.laptopByRfid(resData.getTag_name());  
 		System.out.println(laptop.getUser().getUsername() + " - " + resData.getTag_name());
+		String barcode = "";
+		String enpNo = "";
+		String bizDeptCd = "";
 		Map<String, Object> result = new HashMap<>();
 		if(laptop != null) {
+			String remoteAddr = commonService.getRemoteAddr(req);
+//			log.info("□□□□□□□□□□ 접속 IP : " + remoteAddr + "□□□□□□□□□□");
+			AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr); 
+			
+			barcode = laptop.getBarcode();
+			enpNo = laptop.getUser().getUserNo();
+			bizDeptCd = agent.getBizDeptCd();
 			RestTemplate rt = new RestTemplate();
 			
 			// HttpHeader 오브젝트 생성
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Content-type", "application/json");
-			
+		
 			// HttpBody 오브젝트 생성
-			MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-			params.add("barcode", null);
-			params.add("enpNo", null);
-			params.add("bizDeptCd", null); 
-			// HttpBody를 하나의 오브젝트에 담기
-			HttpEntity<MultiValueMap<String, String>> rfidInfo = 
-					new HttpEntity<>(params, headers);
+//			MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+//			params.add("barcode", barcode);
+//			params.add("enpNo", enpNo);
+//			params.add("bizDeptCd", bizDeptCd); 
+//			
+//			// HttpBody를 하나의 오브젝트에 담기
+//			HttpEntity<MultiValueMap<String, String>> rfidInfo = 
+//					new HttpEntity<>(params, headers);
 			
+
+			Map<String, String> param2 = new HashMap<>();
+			param2.put("barcode", barcode);
+			param2.put("enpNo", enpNo);
+			param2.put("bizDeptCd", bizDeptCd); 
+			
+			HttpEntity<Map<String, String>> rfidInfo= 
+					new HttpEntity<>(param2, headers);
+		
+//			System.out.println(">>>>> " + rfidInfo);
 			// Http 요청하기
 			ResponseEntity<String> response = rt.exchange(
 //						"http://10.82.28.67:7011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
 //						"http://testisms.lginnotek.com:7011/",
-						"http://127.0.0.1/api/receive",
+						"http://127.0.0.1:8001/api/receive",
 						HttpMethod.POST,
 						rfidInfo,
 						String.class
 					);
 			
 			// Gson, Json Simple, ObjectMapper // 응답받은 JSON값 Object로 변경해주는 템플릿
-			ObjectMapper objectMapper = new ObjectMapper();
-			
-
-			String remoteAddr = commonService.getRemoteAddr(req);
-//			log.info("□□□□□□□□□□ 접속 IP : " + remoteAddr + "□□□□□□□□□□");
-			AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr); 
+			ObjectMapper objectMapper = new ObjectMapper(); 
 			int agent_id = agent.getId();
 			String agent_id_str = String.valueOf(agent_id);
 			String lamp_type = "0";
@@ -151,7 +168,7 @@ public class ResponseApiController {
 			String err_code = resDto.getErr_code();  
 			if(user == null) err_code = "300"; 
 			
-			String bizDeptCd = agent.getBizDeptCd();
+			bizDeptCd = agent.getBizDeptCd();
 			
 			String bizDeptText = commonService.getBizDeptText(bizDeptCd); 
 			
@@ -180,8 +197,8 @@ public class ResponseApiController {
 	
 	@PostMapping("/api/receive")
 //	@PostMapping("/pages/receive.php")
-	public Object receive(IsmsReqDto result) {  
-		
+	public Object receive(@RequestBody IsmsReqDto result) {  
+		System.out.println(">>>> " + result); 
 		int random = (int)((Math.random()*10000)%10);
 		int random2 = (int)((Math.random()*10000)%10);
 		String flag = "Y"; 
