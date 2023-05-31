@@ -116,8 +116,8 @@ public class ResponseApiController {
 //			System.out.println(">>>>> " + rfidInfo);
 			// Http 요청하기
 			ResponseEntity<String> response = rt.exchange(
-//						"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
-						"http://127.0.0.1:8001/api/receive",
+						"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
+//						"http://127.0.0.1:8001/api/receive",
 						HttpMethod.POST,
 						rfidInfo,
 						String.class
