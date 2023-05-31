@@ -17,7 +17,7 @@ tomcat:
     node1: localhost:8001
     node2: localhost:8002
 
-#logging:
+#logging: 
 #  config: classpath:log4j2.xml
 
 spring:

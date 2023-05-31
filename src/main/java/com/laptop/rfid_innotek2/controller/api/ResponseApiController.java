@@ -75,16 +75,15 @@ public class ResponseApiController {
 	@PostMapping("/rest/send_rfid_info.php")
 	public Map<String,Object> sendRfidInfo(@RequestBody IsmsResDto resData, HttpServletRequest req) throws Exception {
 		LaptopInfo laptop = laptopInfoService.laptopByRfid(resData.getTag_name());   
+		String remoteAddr = commonService.getRemoteAddr(req);
+		log.info("□□□□□□□□□□ Agent IP : " + remoteAddr + "□□□□□□□□□□");
+		AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr); 
 		String barcode = "";
 		String enpNo = "";
 		String bizDeptCd = "";
 		Map<String, Object> result = new HashMap<>();
 		if(laptop != null) {
-//			log.info(laptop.getUser().getUsername() + " - " + resData.getTag_name()); 
-			String remoteAddr = commonService.getRemoteAddr(req);
-			log.info("□□□□□□□□□□ Agent IP : " + remoteAddr + "□□□□□□□□□□");
-			AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr); 
-			
+//			log.info(laptop.getUser().getUsername() + " - " + resData.getTag_name());  
 			barcode = laptop.getBarcode();
 			enpNo = laptop.getUser().getUserNo();
 			bizDeptCd = agent.getBizDeptCd();
@@ -190,7 +189,7 @@ public class ResponseApiController {
 			return result;
 		} else {
 			result.put("result_code", "1");
-			log.info("RFID TAG 일치 데이터 없음. TAG_NAME : " + resData.getTag_name());
+			log.info("agent : " + agent+", RFID TAG 일치 데이터 없음. TAG_NAME : " + resData.getTag_name());
 			return result;
 		}
 		 
