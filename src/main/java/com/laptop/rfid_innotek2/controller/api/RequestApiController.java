@@ -88,7 +88,7 @@ public class RequestApiController {
 //	@PostMapping("/api/send_reset_device_info")
 	@PostMapping("/rest/send_reset_device_info.php")
 	public Object send_reset_device_info(@RequestBody AgentReqDto agentReqDto) {
-		System.out.println(agentReqDto);
+//		System.out.println(agentReqDto);
 		int agent_id = agentReqDto.getXray_id();
 		AdmAgent agent = 	admAgentService.findByAgent(agent_id); 
 		String agent_ip = agent.getAgentIp();
@@ -153,7 +153,7 @@ public class RequestApiController {
 						String.class
 					); 
 			ObjectMapper objectMapper = new ObjectMapper();
-			System.out.println(response.getBody());
+//			System.out.println(response.getBody());
 			AgentResDto resDto = objectMapper.readValue(response.getBody(), AgentResDto.class);
 //			RfidDeviceDto resDto1 = objectMapper.readValue(resDto.toString(), RfidDeviceDto.class);
 			if(resDto.getRfid_device() != null) { 

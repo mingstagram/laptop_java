@@ -65,7 +65,7 @@ public class EventHistoryController {
 			String sdate,
 			String edate,
 			Criteria cri ) {  
-		log.info("□□□□□□□□□□ [/eventHistory/search1] START □□□□□□□□□□"); 
+//		log.info("□□□□□□□□□□ [/eventHistory/search1] START □□□□□□□□□□"); 
 		String username = commonService.getCookie("username");
 		String agent = commonService.getCookie("agent_id");
 		log.info("search1 Controller : {}", username); 
@@ -75,8 +75,7 @@ public class EventHistoryController {
 			PageMaker pageMaker = new PageMaker(); 
 			pageMaker.setCri(cri);
 			
-			if(username.equals("admin")) {
-				System.out.println();
+			if(username.equals("admin")) { 
 				count = eventHistoryService.historyCount(null);
 				eventList =eventHistoryService.historyList(cri, null);  
 			} else {
@@ -122,7 +121,7 @@ public class EventHistoryController {
 			model.addAttribute("pageMaker", pageMaker);
 		}
 		
-		log.info("□□□□□□□□□□ [/eventHistory/search1] END □□□□□□□□□□"); 
+//		log.info("□□□□□□□□□□ [/eventHistory/search1] END □□□□□□□□□□"); 
 		return "page/search1";
 	} 
 

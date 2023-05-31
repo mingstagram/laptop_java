@@ -80,9 +80,9 @@ public class ResponseApiController {
 		String bizDeptCd = "";
 		Map<String, Object> result = new HashMap<>();
 		if(laptop != null) {
-			System.out.println(laptop.getUser().getUsername() + " - " + resData.getTag_name());
+//			log.info(laptop.getUser().getUsername() + " - " + resData.getTag_name()); 
 			String remoteAddr = commonService.getRemoteAddr(req);
-//			log.info("□□□□□□□□□□ 접속 IP : " + remoteAddr + "□□□□□□□□□□");
+			log.info("□□□□□□□□□□ Agent IP : " + remoteAddr + "□□□□□□□□□□");
 			AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr); 
 			
 			barcode = laptop.getBarcode();
@@ -188,9 +188,11 @@ public class ResponseApiController {
 					.build();
 			
 			eventHistoryService.saveHistory(history); 
+			log.info(laptop.getUser().getUsername() + " - " + resData.getTag_name() + " : " + resDto.getStorageOutFlag()); 
 			return result;
 		} else {
 			result.put("result_code", "1");
+			log.info("RFID TAG 일치 데이터 없음. TAG_NAME : " + resData.getTag_name());
 			return result;
 		}
 		 
@@ -199,7 +201,7 @@ public class ResponseApiController {
 	@PostMapping("/api/receive")
 //	@PostMapping("/pages/receive.php")
 	public Object receive(@RequestBody IsmsReqDto result) {  
-		System.out.println(">>>> " + result); 
+//		System.out.println(">>>> " + result); 
 		int random = (int)((Math.random()*10000)%10);
 		int random2 = (int)((Math.random()*10000)%10);
 		String flag = "Y"; 

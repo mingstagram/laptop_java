@@ -40,6 +40,9 @@ systemctl restart crond
  
 ```
 
+-- 외래키 삭제 가능 쿼리
+set FOREIGN_KEY_CHECKS = 0;
+
 -- adm_agent -> AdmAgent
 TRUNCATE TABLE AdmAgent;
 INSERT INTO AdmAgent(id, agentIp, agentNum, agentPort, bizDeptCd, datetime)
@@ -67,7 +70,7 @@ TRUNCATE TABLE SystemInfo;
 INSERT INTO SystemInfo (id, datetime, set1, set2, set3, set4, agentId)
 SELECT id, datetime, set1, set2, set3, set4, agent FROM adm_set2;
 
--- br_match -> LaptopInfo
+-- br_match -> LaptopInfoblog
 TRUNCATE TABLE LaptopInfo;
 INSERT INTO LaptopInfo (id, asset, barcode, datetime, rfid, serial, userId)
 SELECT 
@@ -117,4 +120,6 @@ ON b.u_num = u.u_num
 LEFT JOIN adm_agent a
 ON e.agent = a.id;
 
+-- 외래키 삭제 불가 쿼리
+set FOREIGN_KEY_CHECKS = 1;
 ```

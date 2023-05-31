@@ -44,9 +44,9 @@ public class AdmMemberApiController {
 			commonService.setCookie("prop", findMember.getProp());
 			commonService.setCookie("agent_id", agent_id_str); 
 			
-			if(findMember.getAdmAgent() == null) {
+			if(findMember.getAdmAgent() == null) { 
 				return new ResponseDto<>(HttpStatus.OK, 2);
-			} else { 
+			} else {  
 				return new ResponseDto<>(HttpStatus.OK, 1);
 			} 
 		} else {

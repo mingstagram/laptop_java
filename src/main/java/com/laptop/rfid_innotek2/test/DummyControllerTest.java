@@ -76,8 +76,7 @@ public class DummyControllerTest {
 	}
 	
 	@PostMapping("/dummy/join")
-	public String join(AdmAgent agent) {
-		System.out.println(agent);
+	public String join(AdmAgent agent) { 
 		admAgentRepository.save(agent);
 		return "저장완료";
 	}
