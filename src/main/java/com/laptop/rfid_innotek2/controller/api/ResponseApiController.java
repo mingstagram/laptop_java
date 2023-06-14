@@ -117,6 +117,8 @@ public class ResponseApiController {
 			// Http 요청하기
 			ResponseEntity<String> response = rt.exchange(
 						"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
+//						"https://nsp.lginnotek.com/api/external/rfidExpItemRequest", 
+//						"https://nspdev.lginnotek.com/api/external/rfidExpItemRequest",
 //						"http://127.0.0.1:8001/api/receive",
 						HttpMethod.POST,
 						rfidInfo,
@@ -203,16 +205,20 @@ public class ResponseApiController {
 		int random = (int)((Math.random()*10000)%10);
 		int random2 = (int)((Math.random()*10000)%10);
 		String flag = "Y"; 
+		String err_code = null;
 		if(random%2 == 1) {
 			flag = "Y";
 		} else {
 			if(random2%2 == 1) flag = "S"; 
-			else flag = "N";
+			else {
+				flag = "N";
+				err_code = "300";
+			}
 		}
-		IsmsResDto resDto = new IsmsResDto(); 
-		resDto.setErr_code(null);
+		IsmsResDto resDto = new IsmsResDto();  
 		resDto.setResult_code("200");
 		resDto.setStorageOutFlag(flag);
+		resDto.setErr_code(err_code);
 		
 		return resDto;
 	}

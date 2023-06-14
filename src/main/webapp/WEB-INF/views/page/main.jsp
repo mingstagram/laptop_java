@@ -192,7 +192,7 @@
 								<li><span class="">승인</span></li>
 							</c:when>
 							<c:otherwise>
-								<li><span class="">미승인</span></li>
+								<li><span class="" style="color:red;">미승인</span></li>
 							</c:otherwise>
 						</c:choose>
 					</ul>
