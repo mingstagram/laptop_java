@@ -81,7 +81,7 @@ public class ResponseApiController {
 		Map<String, Object> result = new HashMap<>();
 		if(laptop != null) {
 //			log.info(laptop.getUser().getUsername() + " - " + resData.getTag_name()); 
-			String remoteAddr = commonService.getRemoteAddr(req);
+			String remoteAddr = commonService.getRemoteAddr(req); 
 			log.info("□□□□□□□□□□ Agent IP : " + remoteAddr + "□□□□□□□□□□");
 			AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr); 
 			

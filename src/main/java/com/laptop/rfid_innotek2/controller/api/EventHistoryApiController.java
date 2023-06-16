@@ -31,4 +31,14 @@ public class EventHistoryApiController {
 		return new ResponseDto<>(HttpStatus.OK, result);
 	}
 	
+//	@GetMapping("/eventHistory/xrayContents")
+//	public String xrayContents(){ 
+//		return "<h1>xrayContents</h1>";
+//	} 
+//	
+//	@GetMapping("/eventHistory/tableContents")
+//	public String tableContents(){ 
+//		return "<h1>tableContents</h1>";
+//	} 
+	
 }

@@ -12,9 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.laptop.rfid_innotek2.model.AdmAgent;
 import com.laptop.rfid_innotek2.model.Criteria;
 import com.laptop.rfid_innotek2.model.EventHistory;
 import com.laptop.rfid_innotek2.model.PageMaker;
+import com.laptop.rfid_innotek2.service.AdmAgentService;
 import com.laptop.rfid_innotek2.service.AdmMemberService;
 import com.laptop.rfid_innotek2.service.CommonService;
 import com.laptop.rfid_innotek2.service.EventHistoryService;
@@ -34,10 +36,16 @@ public class EventHistoryController {
 	@Autowired
 	EventHistoryService eventHistoryService;
 	
+	@Autowired
+	AdmAgentService admAgentService;
+	
 	@GetMapping("/eventHistory/main")
 	public String main(Model model) {  
 		String agent_id_str = commonService.getCookie("agent_id");
 		int agent_id = Integer.parseInt(agent_id_str);
+		AdmAgent agent = admAgentService.findByAgent(agent_id); 
+		
+		long before = System.currentTimeMillis();
 		
 		List<EventHistory> topHistoryList = new ArrayList<>();
 		List<EventHistory> mainHistoryList = new ArrayList<>();
@@ -51,6 +59,9 @@ public class EventHistoryController {
 			topHistoryList = eventHistoryService.mainTopHistoryList(agent_id);
 			mainHistoryList = eventHistoryService.mainBottomHistoryList(agent_id);
 		} 
+		
+		long after = System.currentTimeMillis();
+		log.info("main agent : " + agent.getAgentNum() + ", main page load : 	" + (after-before) + "ms"); 
 		model.addAttribute("topHistoryList", topHistoryList);
 		model.addAttribute("mainHistoryList", mainHistoryList);  
 		return "page/main";
@@ -68,7 +79,7 @@ public class EventHistoryController {
 //		log.info("□□□□□□□□□□ [/eventHistory/search1] START □□□□□□□□□□"); 
 		String username = commonService.getCookie("username");
 		String agent = commonService.getCookie("agent_id");
-		log.info("search1 Controller : {}", username); 
+//		log.info("search1 Controller : {}", username); 
 		List<EventHistory> eventList = new ArrayList<>(); 
 		int count = 0;
 		if(bizDeptCd == null && result == null && keyword == null && sdate == null && edate == null ) {
@@ -123,6 +134,50 @@ public class EventHistoryController {
 		
 //		log.info("□□□□□□□□□□ [/eventHistory/search1] END □□□□□□□□□□"); 
 		return "page/search1";
+	} 
+	
+	@GetMapping("/eventHistory/xrayContents")
+	public String xrayContents(Model model){ 
+		String agent_id_str = commonService.getCookie("agent_id");
+		int agent_id = Integer.parseInt(agent_id_str);
+		
+		List<EventHistory> topHistoryList = new ArrayList<>();
+		List<EventHistory> mainHistoryList = new ArrayList<>();
+		
+		String username = commonService.getCookie("username"); 
+		if(username.equals("admin")) {
+			// 슈퍼관리자 인경우 전체 보기  
+			topHistoryList = eventHistoryService.mainTopHistoryList();
+			mainHistoryList = eventHistoryService.mainBottomHistoryList(); 
+		} else {  
+			topHistoryList = eventHistoryService.mainTopHistoryList(agent_id);
+			mainHistoryList = eventHistoryService.mainBottomHistoryList(agent_id);
+		} 
+		model.addAttribute("topHistoryList", topHistoryList);
+		model.addAttribute("mainHistoryList", mainHistoryList);  
+		return "page/xrayContents";
+	} 
+	
+	@GetMapping("/eventHistory/tableContents")
+	public String tableContents(Model model){ 
+		String agent_id_str = commonService.getCookie("agent_id");
+		int agent_id = Integer.parseInt(agent_id_str); 
+		
+		List<EventHistory> topHistoryList = new ArrayList<>();
+		List<EventHistory> mainHistoryList = new ArrayList<>();
+		
+		String username = commonService.getCookie("username"); 
+		if(username.equals("admin")) {
+			// 슈퍼관리자 인경우 전체 보기  
+			topHistoryList = eventHistoryService.mainTopHistoryList();
+			mainHistoryList = eventHistoryService.mainBottomHistoryList(); 
+		} else {  
+			topHistoryList = eventHistoryService.mainTopHistoryList(agent_id);
+			mainHistoryList = eventHistoryService.mainBottomHistoryList(agent_id);
+		} 
+		model.addAttribute("topHistoryList", topHistoryList);
+		model.addAttribute("mainHistoryList", mainHistoryList);  
+		return "page/tableContents";
 	} 
 
 }

@@ -109,7 +109,7 @@
 
 
 	<div id=top_table_box class="zoom_box">
-		<ul id=top_table>
+		<%-- <ul id=top_table>
 		
 			<div class="xray_box" >
 				<span class="xray_box_title" >Xray</span>
@@ -163,7 +163,7 @@
 				</c:forEach>
 				</div>
 			</div>
-		</ul>
+		</ul> --%>
 	</div>
 	<div id=main_bottom>
 		<div id=main_bottom_in class=zoom_box>
@@ -176,10 +176,8 @@
 				<li>반출시간</li>
 				<li>상태</li>
 			</ul>
-			<div id=table_contents>
-
-				<c:forEach var="mainHistory" items="${mainHistoryList}">
-
+			<div id=table_contents> 
+				<%-- <c:forEach var="mainHistory" items="${mainHistoryList}"> 
 					<ul class="main_table"> 
 						<li>${mainHistory.userNo}</li>
 						<li>${mainHistory.username}</li> 
@@ -195,10 +193,9 @@
 								<li><span class="" style="color:red;">미승인</span></li>
 							</c:otherwise>
 						</c:choose>
-					</ul>
-
+					</ul> 
 				</c:forEach>
-			</div>
+			</div> --%>
 		</div>
 	</div>
 </div>
@@ -212,7 +209,7 @@
 		zoomLevel(prop);
 		//server_now = setInterval(server_check, 1000);   
 		setInterval(() => {server_check()}, 1000);
-	}); 
+	});  
 
 	function server_check() {
 		let prop = $('.select').val();
@@ -228,8 +225,10 @@
 			//dir : dir
 			},
 			success : function(data) { 
-				$('#xray_contents').load(' #xray_contents').trigger("create");
-				$('#table_contents').load(' #table_contents').trigger("create");
+				//$('#xray_contents').load(' #xray_contents').trigger("create");
+				//$('#table_contents').load(' #table_contents').trigger("create"); 
+				$('#top_table_box').load('/eventHistory/xrayContents');
+				$('#table_contents').load('/eventHistory/tableContents'); 
 			}
 		}).fail(function() {
 		});
@@ -240,9 +239,9 @@
 			$(".zoom_box").css({
 				"zoom" : 0.6
 			}); 
-			$(".xray_box_title").css({
+			/* $(".xray_box_title").css({
 				"zoom" : 1.4
-			}); 
+			});  */
 			$(".table_title").css({
 				"zoom" : 1.4
 			}); 
@@ -253,9 +252,9 @@
 			$(".zoom_box").css({
 				"zoom" : 0.7
 			}); 
-			$(".xray_box_title").css({
+			/* $(".xray_box_title").css({
 				"zoom" : 1.2
-			}); 
+			});  */
 			$(".table_title").css({
 				"zoom" : 1.2
 			});
@@ -266,9 +265,9 @@
 			$(".zoom_box").css({
 				"zoom" : 0.8
 			});  
-			$(".xray_box_title").css({
+			/* $(".xray_box_title").css({
 				"zoom" : 1
-			}); 
+			});  */
 			$(".table_title").css({
 				"zoom" : 1
 			});
@@ -279,9 +278,9 @@
 			$(".zoom_box").css({
 				"zoom" : 0.9
 			}); 
-			$(".xray_box_title").css({
+			/* $(".xray_box_title").css({
 				"zoom" : 0.9
-			}); 
+			});  */
 			$(".table_title").css({
 				"zoom" : 0.9
 			});
@@ -292,9 +291,9 @@
 			$(".zoom_box").css({
 				"zoom" : 1.0
 			}); 
-			$(".xray_box_title").css({
+			/* $(".xray_box_title").css({
 				"zoom" : 0.8
-			}); 
+			});  */
 			$(".table_title").css({
 				"zoom" : 0.8
 			});
@@ -349,7 +348,7 @@
 			}); 
 			$(".xray_box_title").css({
 				"zoom" : 1.2
-			}); 
+			});
 			$(".table_title").css({
 				"zoom" : 1.2
 			});
@@ -388,7 +387,7 @@
 			}); 
 			$(".xray_box_title").css({
 				"zoom" : 0.8
-			}); 
+			});
 			$(".table_title").css({
 				"zoom" : 0.8
 			});
