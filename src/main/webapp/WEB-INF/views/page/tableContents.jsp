@@ -14,10 +14,10 @@
 		<c:choose>
 			<c:when
 				test="${mainHistory.result eq 'Y' || mainHistory.result eq 'S'}">
-				<li><span class="">승인</span></li>
+				<li><b><span class="">승인</span></b></li>
 			</c:when>
 			<c:otherwise>
-				<li><span class="" style="color: red;">미승인</span></li>
+				<li><b><span class="" style="color: red;">미승인</span></b></li>
 			</c:otherwise>
 		</c:choose>
 	</ul>

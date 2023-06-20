@@ -19,14 +19,14 @@ public interface EventHistoryRepository extends JpaRepository<EventHistory, Inte
 	@Query(value = "SELECT * FROM EventHistory ORDER BY datetime DESC LIMIT 2", nativeQuery = true)
 	List<EventHistory> historyTop2List();
 	
-	@Query(value = "SELECT * FROM EventHistory ORDER BY datetime DESC LIMIT 30", nativeQuery = true)
-	List<EventHistory> historyTop30List();
+	@Query(value = "SELECT * FROM EventHistory ORDER BY datetime DESC LIMIT 20", nativeQuery = true)
+	List<EventHistory> historyTop20List();
 	
 	@Query(value = "SELECT * FROM EventHistory WHERE agent=? ORDER BY datetime DESC LIMIT 2", nativeQuery = true)
 	List<EventHistory> historyTop2List(int agent);
 	
-	@Query(value = "SELECT * FROM EventHistory WHERE agent=? ORDER BY datetime DESC LIMIT 30", nativeQuery = true)
-	List<EventHistory> historyTop30List(int agent); 
+	@Query(value = "SELECT * FROM EventHistory WHERE agent=? ORDER BY datetime DESC LIMIT 20", nativeQuery = true)
+	List<EventHistory> historyTop20List(int agent); 
 	 
 	@Query(value= "SELECT * FROM EventHistory ORDER BY datetime DESC LIMIT ?, ?", nativeQuery = true)
 	List<EventHistory> page(int startPage, int pageSize);

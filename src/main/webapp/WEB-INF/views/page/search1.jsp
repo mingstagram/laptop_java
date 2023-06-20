@@ -77,9 +77,9 @@ a:visited {
 				<li><fmt:formatDate value="${history.datetime }" pattern="yyyy-MM-dd HH:mm:ss"/></li>
 				<c:choose>
 					<c:when test="${history.result eq 'Y' || history.result eq 'S' }">
-						<li>승인</li>
+						<li><b>승인</b></li>
 					</c:when>
-					<c:otherwise><li>미승인</li></c:otherwise>
+					<c:otherwise><li style="color:red;"><b>미승인</b></li></c:otherwise>
 				</c:choose> 
 			</ul>
 		</c:forEach> 

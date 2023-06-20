@@ -36,16 +36,16 @@ public class EventHistoryController {
 	@Autowired
 	EventHistoryService eventHistoryService;
 	
-	@Autowired
-	AdmAgentService admAgentService;
+//	@Autowired
+//	AdmAgentService admAgentService;
 	
 	@GetMapping("/eventHistory/main")
 	public String main(Model model) {  
 		String agent_id_str = commonService.getCookie("agent_id");
 		int agent_id = Integer.parseInt(agent_id_str);
-		AdmAgent agent = admAgentService.findByAgent(agent_id); 
+//		AdmAgent agent = admAgentService.findByAgent(agent_id); 
 		
-		long before = System.currentTimeMillis();
+//		long before = System.currentTimeMillis();
 		
 		List<EventHistory> topHistoryList = new ArrayList<>();
 		List<EventHistory> mainHistoryList = new ArrayList<>();
@@ -60,8 +60,8 @@ public class EventHistoryController {
 			mainHistoryList = eventHistoryService.mainBottomHistoryList(agent_id);
 		} 
 		
-		long after = System.currentTimeMillis();
-		log.info("main agent : " + agent.getAgentNum() + ", main page load : 	" + (after-before) + "ms"); 
+//		long after = System.currentTimeMillis();
+//		log.info("main agent : " + agent.getAgentNum() + ", main page load : 	" + (after-before) + "ms"); 
 		model.addAttribute("topHistoryList", topHistoryList);
 		model.addAttribute("mainHistoryList", mainHistoryList);  
 		return "page/main";

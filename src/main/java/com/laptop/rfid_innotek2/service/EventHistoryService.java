@@ -33,7 +33,7 @@ public class EventHistoryService {
 	}
 	
 	public List<EventHistory> mainBottomHistoryList(){
-		return eventHistoryRepository.historyTop30List();
+		return eventHistoryRepository.historyTop20List();
 	}
 	
 	public List<EventHistory> mainTopHistoryList(int agent){
@@ -41,7 +41,7 @@ public class EventHistoryService {
 	}
 	
 	public List<EventHistory> mainBottomHistoryList(int agent){
-		return eventHistoryRepository.historyTop30List(agent);
+		return eventHistoryRepository.historyTop20List(agent);
 	}
 	
 	public List<EventHistory> findAll(){

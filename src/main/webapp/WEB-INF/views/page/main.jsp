@@ -207,12 +207,16 @@
 		//server_check();
 		console.log(prop);
 		zoomLevel(prop);
+		$('#top_table_box').load('/eventHistory/xrayContents');
+		$('#table_contents').load('/eventHistory/tableContents'); 
 		//server_now = setInterval(server_check, 1000);   
 		setInterval(() => {server_check()}, 1000);
 	});  
 
 	function server_check() {
-		let prop = $('.select').val();
+		$('#top_table_box').load('/eventHistory/xrayContents');
+		$('#table_contents').load('/eventHistory/tableContents'); 
+		/* let prop = $('.select').val();
 		
 		var topHtml = '';
 		var bottomHtml = '';
@@ -231,7 +235,7 @@
 				$('#table_contents').load('/eventHistory/tableContents'); 
 			}
 		}).fail(function() {
-		});
+		}); */
 	}
 
 	function zoomLevel(level) {
