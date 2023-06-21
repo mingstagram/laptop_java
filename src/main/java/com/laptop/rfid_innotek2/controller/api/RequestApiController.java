@@ -125,7 +125,7 @@ public class RequestApiController {
 		String agent = agentResDto.getAgent(); 
 		if(agent != null && !agent.equals("")) { 
 			int agentId = Integer.parseInt(agent);
-			
+			System.out.println(">>> "+ agentId);
 			AdmAgent admAgent = admAgentService.findTopByIdOrderByDatetimeDesc(agentId);
 			String agent_ip = admAgent.getAgentIp();
 			String agent_port = admAgent.getAgentPort();

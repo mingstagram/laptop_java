@@ -51,6 +51,20 @@
 .select option {
 	padding: 3px 0;
 }
+
+.select2 {
+	width: 150px;
+	height: 35px;
+	background:
+		url("https://freepikpsd.com/media/2019/10/down-arrow-icon-png-7-Transparent-Images.png")
+		calc(100% - 5px) center no-repeat;
+	background-size: 20px;
+	border-radius: 4px;
+	margin-left: 0px;
+	outline: 0 none;
+	border: 1px solid gray;
+	text-align: center;
+}
 </style>
 <div id=right_box>
 	<div id=title_bg>
@@ -58,8 +72,8 @@
 			<img src=/image/circle.jpg
 				style="width: 30px; vertical-align: top; margin-top: 1px; margin-right: 4px;">실시간
 			모니터링
-		</div>
-	</div>
+		</div> 
+	</div> 
 	<input type="hidden" id="username" value="${cookie.username.value}"/>
 	<div id=search_right style="float: right; margin-right: 5%;">
 		<select class="select">
@@ -104,7 +118,16 @@
 				</c:otherwise>
 			</c:choose>
 		</select>
-		<button class="btn-select">설정</button>
+		<button class="btn-select">해상도 설정</button>
+	</div>
+	<div style="float:right;">
+		<select id="reload_time" class="select2">
+			<option class="zoom" id="zoom" value="1000">새로고침시간 : 1초</option>
+			<option class="zoom" id="zoom" value="1500">새로고침시간 : 1.5초</option>
+			<option class="zoom" id="zoom" value="2000">새로고침시간 : 2초</option>
+			<option class="zoom" id="zoom" value="2500">새로고침시간 : 2.5초</option>
+			<option class="zoom" id="zoom" value="3000">새로고침시간 : 3초</option>
+		</select>
 	</div>
 
 
@@ -203,14 +226,19 @@
 <script>
 	var server_now;
 	$(document).ready(function() { 
-		let prop = $('.select').val();
-		//server_check();
-		console.log(prop);
+		let prop = $('.select').val(); 
+		var selectedOption = localStorage.getItem("selectedOption");
+		//server_check(); 
+		if(selectedOption === null){
+			selectedOption = 1000;
+		}
+		$("#reload_time").val(selectedOption).prop("selected", true);
+		console.log(selectedOption);
 		zoomLevel(prop);
 		$('#top_table_box').load('/eventHistory/xrayContents');
 		$('#table_contents').load('/eventHistory/tableContents'); 
 		//server_now = setInterval(server_check, 1000);   
-		setInterval(() => {server_check()}, 1000);
+		setInterval(() => {server_check()}, selectedOption);
 	});  
 
 	function server_check() {
@@ -329,6 +357,19 @@
 				alert("텅신실패");
 			});
 		}
+	});
+	
+	$("#reload_time").change(function(){
+		let select = $(this).val(); 
+		if(select === "1000"){
+			$("#reload_time").val("1000").prop("selected", true);
+		} else if(select === "2000"){
+			$("#reload_time").val("2000").prop("selected", true);
+		}  
+		localStorage.setItem("selectedOption", $("#reload_time").val());
+		time = select; 
+		console.log("!11 > " + time); 
+		location.reload();
 	});
 
 	$(".select").change(function() { 

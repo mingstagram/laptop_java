@@ -36,6 +36,9 @@ import com.laptop.rfid_innotek2.service.EventHistoryService;
 import com.laptop.rfid_innotek2.service.LaptopInfoService;
 import com.laptop.rfid_innotek2.service.UserService;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @RestController
 public class UtilApiController {
 	
@@ -63,7 +66,7 @@ public class UtilApiController {
 			String sdate,
 			String edate,
 			String sort) throws Exception {
-		  
+		log.info("□□□□□□□□□□ 엑셀 다운로드 시작 □□□□□□□□□□"); 
 		if(sort.equals("laptop")) { 
 			if (keyword != null && !keyword.equals("")){  
 				List<LaptopSearchListInterface> laptopList = laptopInfoService.laptopSearch(keyword); 
@@ -82,13 +85,16 @@ public class UtilApiController {
 				commonService.reqExcelDownload(request, response, historyList, "export_list"); 
 			} 
 		}
-		
+		log.info("□□□□□□□□□□ 엑셀 다운로드 종료 □□□□□□□□□□"); 
 		
 		return new ResponseDto<Integer>(HttpStatus.OK, 1);
 	}
 	
 	@PostMapping("/api/util/excelUpload")
 	public Object excelUpload(@RequestParam Map<String, Object> parameters) throws JsonMappingException, JsonProcessingException{
+		
+		log.info("□□□□□□□□□□ 엑셀 업로드 시작 □□□□□□□□□□"); 
+		
 		int insert = 0;
 		int update = 0;
 		int total = 0;
@@ -135,6 +141,7 @@ public class UtilApiController {
 		result.put("total", total);
 		result.put("failed", failed); 
 		
+		log.info("□□□□□□□□□□ 엑셀 업로드 종료 □□□□□□□□□□");
 		
 		return result;
 	}

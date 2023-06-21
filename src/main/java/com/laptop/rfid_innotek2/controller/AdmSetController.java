@@ -43,12 +43,12 @@ public class AdmSetController {
 	// 장비 확인
 	@GetMapping("/admSet/admin6")
 	public String admin6(Model model) { 
-//		log.info("□□□□□□□□□□ [/admSet/admin6] START □□□□□□□□□□");
+		log.info("□□□□□□□□□□ [/admSet/admin6] START □□□□□□□□□□");
 		String agent_id_str = commonService.getCookie("agent_id");
 		int agent_id = Integer.parseInt(agent_id_str); 
 		AdmSet admSet = admSetService.admSetInfo(agent_id);  
 		model.addAttribute("admSet", admSet);
-//		log.info("□□□□□□□□□□ [/admSet/admin6] END □□□□□□□□□□");
+		log.info("□□□□□□□□□□ [/admSet/admin6] END □□□□□□□□□□");
 		return "page/admin6";
 	}
 

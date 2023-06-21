@@ -1,8 +1,11 @@
 package com.laptop.rfid_innotek2.service;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -30,6 +33,8 @@ import com.laptop.rfid_innotek2.dto.LaptopSearchListInterface;
 import com.laptop.rfid_innotek2.model.EventHistory;
 import com.laptop.rfid_innotek2.model.LaptopInfo;
 
+import lombok.extern.log4j.Log4j2;
+
 @Service
 public class CommonService {
 
@@ -45,29 +50,32 @@ public class CommonService {
 
 		Cookie[] cookies = req.getCookies();
 		String findValue = "";
-		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals(findName)) {
-				findValue = cookie.getValue();
-				break;
+		if(cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals(findName)) {
+					findValue = cookie.getValue();
+					break;
+				}
 			}
 		}
+		
 		return findValue;
 	}
-	
+
 	public void cookieChange(String cookieName, String cookieValue) {
-		Cookie[] cookies = req.getCookies(); 
-	    if (cookies != null && cookies.length > 0) { 
-	        for (int i = 0 ; i < cookies.length ; i++) { 
-	            if (cookies[i].getName().equals(cookieName)) { 
-	                Cookie cookie = new Cookie(cookieName, cookieValue); 
-	                res.addCookie(cookie); 
-	            } 
-	        } 
-	    }
+		Cookie[] cookies = req.getCookies();
+		if (cookies != null && cookies.length > 0) {
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName().equals(cookieName)) {
+					Cookie cookie = new Cookie(cookieName, cookieValue);
+					res.addCookie(cookie);
+				}
+			}
+		}
 	}
 
 	public void setCookie(String cookieName, String cookieValue) {
-		
+
 		Cookie cookie = new Cookie(cookieName, cookieValue);
 		cookie.setPath("/");
 		cookie.setMaxAge(60 * 60 * 24 * 7); // 쿠키 유효기간 설정 (7일로 설정할 경우)
@@ -186,12 +194,11 @@ public class CommonService {
 		return (obj != null && !obj.equals(""));
 	}
 
-	public Workbook excelDownLoad(List<?> list, String kind) { 
-		Workbook workbook = new XSSFWorkbook(); 
-
+	public Workbook excelDownLoad(List<?> list, String kind) {
+		Workbook workbook = new XSSFWorkbook();
 		Row row = null;
-		Cell cell = null; 
-		if (kind.equals("export_list")) { 
+		Cell cell = null;
+		if (kind.equals("export_list")) {
 			Sheet sheet = workbook.createSheet(kind);
 			String[] headerKey = { "사번", "이름", "직급", "바코드", "RFID", "사업장", "반출시간", "상태" };
 
@@ -212,7 +219,7 @@ public class CommonService {
 				int cellIdx = 0;
 
 				EventHistory vo = (EventHistory) list.get(i);
-				
+
 				cell = row.createCell(cellIdx++);
 				cell.setCellValue(vo.getUserNo());
 				cell.setCellStyle(dataStyle);
@@ -242,9 +249,12 @@ public class CommonService {
 				cell.setCellStyle(dataStyle);
 
 				cell = row.createCell(cellIdx++);
-				if(vo.getResult().equals("Y") || vo.getResult().equals("S")) cell.setCellValue("승인");
-				else if(vo.getResult().equals("N")) cell.setCellValue("미승인");
-				else cell.setCellValue("인식불가");
+				if (vo.getResult().equals("Y") || vo.getResult().equals("S"))
+					cell.setCellValue("승인");
+				else if (vo.getResult().equals("N"))
+					cell.setCellValue("미승인");
+				else
+					cell.setCellValue("인식불가");
 				cell.setCellStyle(dataStyle);
 			}
 
@@ -254,7 +264,7 @@ public class CommonService {
 				sheet.setColumnWidth(i, sheet.getColumnWidth(i));
 			}
 
-		} else if (kind.equals("laptop_list")) { 
+		} else if (kind.equals("laptop_list")) {
 			Sheet sheet = workbook.createSheet(kind);
 			String[] headerKey = { "사번", "성명", "PC자산번호", "SerialNo", "BARCODE", "소속", "RFID" };
 
@@ -302,7 +312,7 @@ public class CommonService {
 
 				cell = row.createCell(cellIdx++);
 				cell.setCellValue(vo.getRfid());
-				cell.setCellStyle(dataStyle); 
+				cell.setCellStyle(dataStyle);
 			}
 
 			// 셀 넓이 자동 조정
@@ -311,7 +321,7 @@ public class CommonService {
 				sheet.setColumnWidth(i, sheet.getColumnWidth(i));
 			}
 
-		} else if (kind.equals("laptop_search_list")) { 
+		} else if (kind.equals("laptop_search_list")) {
 			Sheet sheet = workbook.createSheet(kind);
 			String[] headerKey = { "사번", "성명", "PC자산번호", "SerialNo", "BARCODE", "소속", "RFID" };
 
@@ -330,7 +340,7 @@ public class CommonService {
 			for (int i = 0; i < list.size(); i++) { // 데이터 구성
 				row = sheet.createRow(i + 1);
 				int cellIdx = 0;
- 
+
 				LaptopSearchListInterface vo = (LaptopSearchListInterface) list.get(i);
 
 				cell = row.createCell(cellIdx++);
@@ -359,7 +369,7 @@ public class CommonService {
 
 				cell = row.createCell(cellIdx++);
 				cell.setCellValue(vo.getRfid());
-				cell.setCellStyle(dataStyle); 
+				cell.setCellStyle(dataStyle);
 			}
 
 			// 셀 넓이 자동 조정
@@ -368,7 +378,7 @@ public class CommonService {
 				sheet.setColumnWidth(i, sheet.getColumnWidth(i));
 			}
 
-		} 
+		}
 		return workbook;
 
 	}
@@ -406,7 +416,8 @@ public class CommonService {
 		OutputStream outs = response.getOutputStream();
 
 		String fileName = kind;
-		if(fileName.equals("laptop_search_list")) fileName = "laptop_list";
+		if (fileName.equals("laptop_search_list"))
+			fileName = "laptop_list";
 		String encFileName = fileName;
 		logger.info("[" + fileName + "] 엑셀 다운로드 시작.");
 
@@ -414,7 +425,7 @@ public class CommonService {
 			Workbook workbook = null;
 
 			workbook = excelDownLoad(list, kind);
-			response.reset();  
+			response.reset();
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + encFileName + ".xlsx\"");
 			// 엑셀 출력
 			workbook.write(outs);
@@ -427,7 +438,8 @@ public class CommonService {
 			response.setContentType("text/html;charset=UTF-8");
 			PrintWriter pout = response.getWriter();
 			pout.println("<script type=\"text/javascript\">");
-			pout.println("alert('[IOException]  [" + fileName + "] 엑셀 다운로드 도중 오류가 발생했습니다.\\n시스템 관리자에게 문의 바랍니다.');history.go(-1);");
+			pout.println("alert('[IOException]  [" + fileName
+					+ "] 엑셀 다운로드 도중 오류가 발생했습니다.\\n시스템 관리자에게 문의 바랍니다.');history.go(-1);");
 			pout.println("</script>");
 			pout.flush();
 		} finally {
@@ -437,6 +449,38 @@ public class CommonService {
 			response.getOutputStream().flush();
 			response.getOutputStream().close();
 		}
+
+	}
+
+	public static boolean makeFile(String _fileName, ArrayList<String> alContent, boolean bAppend) {
+		boolean isOK;
+		try
+
+		{
+
+			FileWriter fw = new FileWriter(_fileName, bAppend);
+			BufferedWriter bw = new BufferedWriter(fw);
+
+			String strContent;
+			for (int i = 0; i < alContent.size(); i++) {
+
+				strContent = alContent.get(i);
+				bw.write(strContent);
+				bw.newLine();
+			}
+
+			bw.flush();
+			bw.close();
+			fw.close();
+
+			isOK = true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			isOK = false;
+		}
+
+		return isOK;
 
 	}
 

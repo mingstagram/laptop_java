@@ -1,6 +1,8 @@
 package com.laptop.rfid_innotek2.controller;
  
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,17 +38,22 @@ public class EventHistoryController {
 	@Autowired
 	EventHistoryService eventHistoryService;
 	
-//	@Autowired
-//	AdmAgentService admAgentService;
+	@Autowired
+	AdmAgentService admAgentService;
 	
 	@GetMapping("/eventHistory/main")
 	public String main(Model model) {  
+		// 들어온 시간 
 		String agent_id_str = commonService.getCookie("agent_id");
 		int agent_id = Integer.parseInt(agent_id_str);
 //		AdmAgent agent = admAgentService.findByAgent(agent_id); 
-		
+//		if(agent != null) {
 //		long before = System.currentTimeMillis();
-		
+//		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.sss");
+//		long before_time = System.currentTimeMillis(); 
+//		Date date = new Date(before_time);
+//		String str = formatter.format(date);
+//		System.out.println(">>> before " + str);
 		List<EventHistory> topHistoryList = new ArrayList<>();
 		List<EventHistory> mainHistoryList = new ArrayList<>();
 		
@@ -60,10 +67,20 @@ public class EventHistoryController {
 			mainHistoryList = eventHistoryService.mainBottomHistoryList(agent_id);
 		} 
 		
-//		long after = System.currentTimeMillis();
-//		log.info("main agent : " + agent.getAgentNum() + ", main page load : 	" + (after-before) + "ms"); 
+//		long after = System.currentTimeMillis();  
+//		if(agent.getBizDeptCd().equals("07") || agent.getBizDeptCd().equals("02") || agent.getBizDeptCd().equals("18") || agent.getBizDeptCd().equals("01")) {
+//			log.info("main agent : " + agent.getAgentNum() + ", main page loading  : 	" + (after-before) + "ms");
+//		}
+		 
+//		long before_time1 = System.currentTimeMillis(); 
+//		Date date1 = new Date(before_time1);
+//		String str1 = formatter.format(date1);
+//		System.out.println(">>> after " + str1);
+		
 		model.addAttribute("topHistoryList", topHistoryList);
-		model.addAttribute("mainHistoryList", mainHistoryList);  
+		model.addAttribute("mainHistoryList", mainHistoryList); 
+//		}
+		 
 		return "page/main";
 	}
 	
@@ -76,6 +93,13 @@ public class EventHistoryController {
 			String sdate,
 			String edate,
 			Criteria cri ) {  
+		
+//		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.sss");
+//		long before_time = System.currentTimeMillis(); 
+//		Date date = new Date(before_time);
+//		String str = formatter.format(date);
+//		System.out.println(">>> before " + before_time);
+		
 //		log.info("□□□□□□□□□□ [/eventHistory/search1] START □□□□□□□□□□"); 
 		String username = commonService.getCookie("username");
 		String agent = commonService.getCookie("agent_id");
@@ -130,7 +154,12 @@ public class EventHistoryController {
 			model.addAttribute("eventList", eventList);
 			model.addAttribute("curPageNum", cri.getPage());
 			model.addAttribute("pageMaker", pageMaker);
+			 
 		}
+//		long before_time1 = System.currentTimeMillis(); 
+//		Date date1 = new Date(before_time1);
+//		String str1 = formatter.format(date1);
+//		System.out.println(">>> after " + before_time1);
 		
 //		log.info("□□□□□□□□□□ [/eventHistory/search1] END □□□□□□□□□□"); 
 		return "page/search1";
