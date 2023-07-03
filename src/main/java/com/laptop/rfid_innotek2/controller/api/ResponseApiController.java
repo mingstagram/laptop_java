@@ -114,10 +114,11 @@ public class ResponseApiController {
 //			System.out.println(">>>>> " + rfidInfo);
 			// Http 요청하기
 			ResponseEntity<String> response = rt
-					.exchange("http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
+					.exchange(
+//						"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
 //						"https://nsp.lginnotek.com/api/external/rfidExpItemRequest", 
 //						"https://nspdev.lginnotek.com/api/external/rfidExpItemRequest",
-//						"http://127.0.0.1:8001/api/receive",
+						"http://127.0.0.1:8001/api/receive",
 							HttpMethod.POST, rfidInfo, String.class);
 
 			// Gson, Json Simple, ObjectMapper // 응답받은 JSON값 Object로 변경해주는 템플릿

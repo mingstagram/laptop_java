@@ -125,7 +125,7 @@ public class RequestApiController {
 		String agent = agentResDto.getAgent(); 
 		if(agent != null && !agent.equals("")) { 
 			int agentId = Integer.parseInt(agent);
-			System.out.println(">>> "+ agentId);
+//			System.out.println(">>> "+ agentId);
 			AdmAgent admAgent = admAgentService.findTopByIdOrderByDatetimeDesc(agentId);
 			String agent_ip = admAgent.getAgentIp();
 			String agent_port = admAgent.getAgentPort();
@@ -155,23 +155,25 @@ public class RequestApiController {
 			ObjectMapper objectMapper = new ObjectMapper();
 //			System.out.println(response.getBody());
 			AgentResDto resDto = objectMapper.readValue(response.getBody(), AgentResDto.class);
+//			System.out.println(">>> " + resDto);
 //			RfidDeviceDto resDto1 = objectMapper.readValue(resDto.toString(), RfidDeviceDto.class);
 			if(resDto.getRfid_device() != null) { 
-				String device_address = (String) resDto.getRfid_device().get(0).get("device_address");
+//				String device_address = (String) resDto.getRfid_device().get(0).get("device_address");
 				int device_lamp_state = (int) resDto.getRfid_device().get(0).get("device_lamp_state");
 				int device_state = (int) resDto.getRfid_device().get(0).get("device_state"); 
 				Map<String, Object> result = new HashMap<>(); 
 				if(device_lamp_state == 1 && resDto != null) {
-					result.put("antena_result", "connected");
-				} else {
-					result.put("antena_result", "fail");
-				}
-				
-				if(device_state == 1 && resDto != null) {
 					result.put("alert_result", "connected");
 				} else {
 					result.put("alert_result", "fail");
 				}
+				
+				if(device_state == 1 && resDto != null) {
+					result.put("antena_result", "connected");
+				} else {
+					result.put("antena_result", "fail");
+				}
+//				System.out.println(">>>" + result);
 				return result;
 			} else { 
 				Map<String, Object> result = new HashMap<>(); 
