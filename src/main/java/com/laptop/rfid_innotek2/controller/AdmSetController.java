@@ -2,6 +2,8 @@ package com.laptop.rfid_innotek2.controller;
  
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,26 +32,35 @@ public class AdmSetController {
 	
 	// 장비 설정
 	@GetMapping("/admSet/admin1")
-	public String admin1(Model model) { 
-//		log.info("□□□□□□□□□□ [/admSet/admin1] START □□□□□□□□□□");
-		List<AdmSet> admSetList = admSetService.admSetList();
-		List<AdmAgent> admAgentList = admAgentService.admAgentList();
-		model.addAttribute(admSetList);
-		model.addAttribute(admAgentList);
-//		log.info("□□□□□□□□□□ [/admSet/admin1] END □□□□□□□□□□");
-		return "page/admin1";
+	public String admin1(Model model, HttpServletResponse res) {  
+		String agent = commonService.getCookie("agent_id");
+		if(commonService.nullCheck(agent)) {
+			List<AdmSet> admSetList = admSetService.admSetList();
+			List<AdmAgent> admAgentList = admAgentService.admAgentList();
+			model.addAttribute(admSetList);
+			model.addAttribute(admAgentList); 
+			return "page/admin1";
+		} else {
+			commonService.loginCheckLogic(res);
+			return null;
+		}
+		
 	}
 	 
 	// 장비 확인
 	@GetMapping("/admSet/admin6")
-	public String admin6(Model model) { 
-//		log.info("□□□□□□□□□□ [/admSet/admin6] START □□□□□□□□□□");
+	public String admin6(Model model, HttpServletResponse res) {  
 		String agent_id_str = commonService.getCookie("agent_id");
-		int agent_id = Integer.parseInt(agent_id_str); 
-		AdmSet admSet = admSetService.admSetInfo(agent_id);  
-		model.addAttribute("admSet", admSet);
-//		log.info("□□□□□□□□□□ [/admSet/admin6] END □□□□□□□□□□");
-		return "page/admin6";
+		if(commonService.nullCheck(agent_id_str)) {
+			int agent_id = Integer.parseInt(agent_id_str); 
+			AdmSet admSet = admSetService.admSetInfo(agent_id);  
+			model.addAttribute("admSet", admSet); 
+			return "page/admin6";
+		} else {
+			commonService.loginCheckLogic(res);
+			return null;
+		}
+		
 	}
 
 }

@@ -72,13 +72,7 @@ public class EventHistoryController {
 
 			return "page/main";
 		} else {
-			res.setContentType("text/html; charset=euc-kr");
-			PrintWriter out = res.getWriter();
-			out.println("<script>");
-			out.println("alert('로그인 후 이용 가능 합니다.')");
-			out.println("history.back()");
-			out.println("</script>");
-			out.flush();
+			commonService.loginCheckLogic(res);
 			return null;
 		}
 
@@ -87,125 +81,132 @@ public class EventHistoryController {
 	@GetMapping("/eventHistory/search1")
 	public String search1(Model model,
 			@PageableDefault(page = 0, size = 10, sort = "datetime", direction = Direction.DESC) Pageable pageable,
-			String bizDeptCd, String result, String keyword, String sdate, String edate, Criteria cri) {
+			String bizDeptCd, String result, String keyword, String sdate, String edate, Criteria cri,
+			HttpServletResponse res) {
 
-//		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.sss");
-//		long before_time = System.currentTimeMillis(); 
-//		Date date = new Date(before_time);
-//		String str = formatter.format(date);
-//		System.out.println(">>> before " + before_time);
-
-//		log.info("□□□□□□□□□□ [/eventHistory/search1] START □□□□□□□□□□"); 
 		String username = commonService.getCookie("username");
 		String agent = commonService.getCookie("agent_id");
-//		log.info("search1 Controller : {}", username); 
-		List<EventHistory> eventList = new ArrayList<>();
-		int count = 0;
-		if (bizDeptCd == null && result == null && keyword == null && sdate == null && edate == null) {
-			PageMaker pageMaker = new PageMaker();
-			pageMaker.setCri(cri);
+		if (commonService.nullCheck(agent)) {
+			List<EventHistory> eventList = new ArrayList<>();
+			int count = 0;
+			if (bizDeptCd == null && result == null && keyword == null && sdate == null && edate == null) {
+				PageMaker pageMaker = new PageMaker();
+				pageMaker.setCri(cri);
 
-			if (username.equals("admin")) {
-				count = eventHistoryService.historyCount(null);
-				eventList = eventHistoryService.historyList(cri, null);
+				if (username.equals("admin")) {
+					count = eventHistoryService.historyCount(null);
+					eventList = eventHistoryService.historyList(cri, null);
+				} else {
+					count = eventHistoryService.historyCount(agent);
+					eventList = eventHistoryService.historyList(cri, agent);
+				}
+
+				pageMaker.setTotalCount(count);
+
+				model.addAttribute("searchYn", false);
+				model.addAttribute("count", count);
+				model.addAttribute("eventList", eventList);
+				model.addAttribute("curPageNum", cri.getPage());
+				model.addAttribute("pageMaker", pageMaker);
 			} else {
-				count = eventHistoryService.historyCount(agent);
-				eventList = eventHistoryService.historyList(cri, agent);
+				String queryString = "";
+				if (bizDeptCd != null && bizDeptCd != "")
+					queryString += "&bizDeptCd=" + bizDeptCd;
+				if (result != null && result != "")
+					queryString += "&result=" + result;
+				if (keyword != null && keyword != "")
+					queryString += "&keyword=" + keyword;
+				if (sdate != null && sdate != "")
+					queryString += "&sdate=" + sdate;
+				if (edate != null && edate != "")
+					queryString += "&edate=" + edate;
+
+				PageMaker pageMaker = new PageMaker();
+				pageMaker.setCri(cri);
+
+				if (username.equals("admin")) {
+					count = eventHistoryService.historySearchCount(bizDeptCd, result, keyword, sdate, edate, null);
+					eventList = eventHistoryService.historySearchList(bizDeptCd, result, keyword, sdate, edate, cri,
+							null);
+				} else {
+					count = eventHistoryService.historySearchCount(bizDeptCd, result, keyword, sdate, edate, agent);
+					eventList = eventHistoryService.historySearchList(bizDeptCd, result, keyword, sdate, edate, cri,
+							agent);
+				}
+
+				pageMaker.setTotalCount(count);
+				model.addAttribute("searchYn", true);
+				model.addAttribute("count", count);
+				model.addAttribute("bizDeptCd", bizDeptCd);
+				model.addAttribute("result", result);
+				model.addAttribute("queryString", queryString);
+				model.addAttribute("eventList", eventList);
+				model.addAttribute("curPageNum", cri.getPage());
+				model.addAttribute("pageMaker", pageMaker);
+
 			}
-
-			pageMaker.setTotalCount(count);
-
-			model.addAttribute("searchYn", false);
-			model.addAttribute("count", count);
-			model.addAttribute("eventList", eventList);
-			model.addAttribute("curPageNum", cri.getPage());
-			model.addAttribute("pageMaker", pageMaker);
+			return "page/search1";
 		} else {
-			String queryString = "";
-			if (bizDeptCd != null && bizDeptCd != "")
-				queryString += "&bizDeptCd=" + bizDeptCd;
-			if (result != null && result != "")
-				queryString += "&result=" + result;
-			if (keyword != null && keyword != "")
-				queryString += "&keyword=" + keyword;
-			if (sdate != null && sdate != "")
-				queryString += "&sdate=" + sdate;
-			if (edate != null && edate != "")
-				queryString += "&edate=" + edate;
-
-			PageMaker pageMaker = new PageMaker();
-			pageMaker.setCri(cri);
-
-			if (username.equals("admin")) {
-				count = eventHistoryService.historySearchCount(bizDeptCd, result, keyword, sdate, edate, null);
-				eventList = eventHistoryService.historySearchList(bizDeptCd, result, keyword, sdate, edate, cri, null);
-			} else {
-				count = eventHistoryService.historySearchCount(bizDeptCd, result, keyword, sdate, edate, agent);
-				eventList = eventHistoryService.historySearchList(bizDeptCd, result, keyword, sdate, edate, cri, agent);
-			}
-
-			pageMaker.setTotalCount(count);
-			model.addAttribute("searchYn", true);
-			model.addAttribute("count", count);
-			model.addAttribute("bizDeptCd", bizDeptCd);
-			model.addAttribute("result", result);
-			model.addAttribute("queryString", queryString);
-			model.addAttribute("eventList", eventList);
-			model.addAttribute("curPageNum", cri.getPage());
-			model.addAttribute("pageMaker", pageMaker);
-
+			commonService.loginCheckLogic(res);
+			return null;
 		}
-//		long before_time1 = System.currentTimeMillis(); 
-//		Date date1 = new Date(before_time1);
-//		String str1 = formatter.format(date1);
-//		System.out.println(">>> after " + before_time1);
 
-//		log.info("□□□□□□□□□□ [/eventHistory/search1] END □□□□□□□□□□"); 
-		return "page/search1";
 	}
 
 	@GetMapping("/eventHistory/xrayContents")
-	public String xrayContents(Model model) {
+	public String xrayContents(Model model, HttpServletResponse res) {
 		String agent_id_str = commonService.getCookie("agent_id");
-		int agent_id = Integer.parseInt(agent_id_str);
+		if (commonService.nullCheck(agent_id_str)) {
+			int agent_id = Integer.parseInt(agent_id_str);
 
-		List<EventHistory> topHistoryList = new ArrayList<>();
-		List<EventHistory> mainHistoryList = new ArrayList<>();
+			List<EventHistory> topHistoryList = new ArrayList<>();
+			List<EventHistory> mainHistoryList = new ArrayList<>();
 
-		String username = commonService.getCookie("username");
-		if (username.equals("admin")) {
-			// 슈퍼관리자 인경우 전체 보기
-			topHistoryList = eventHistoryService.mainTopHistoryList();
-			mainHistoryList = eventHistoryService.mainBottomHistoryList();
+			String username = commonService.getCookie("username");
+			if (username.equals("admin")) {
+				// 슈퍼관리자 인경우 전체 보기
+				topHistoryList = eventHistoryService.mainTopHistoryList();
+				mainHistoryList = eventHistoryService.mainBottomHistoryList();
+			} else {
+				topHistoryList = eventHistoryService.mainTopHistoryList(agent_id);
+				mainHistoryList = eventHistoryService.mainBottomHistoryList(agent_id);
+			}
+			model.addAttribute("topHistoryList", topHistoryList);
+			model.addAttribute("mainHistoryList", mainHistoryList);
+			return "page/xrayContents";
 		} else {
-			topHistoryList = eventHistoryService.mainTopHistoryList(agent_id);
-			mainHistoryList = eventHistoryService.mainBottomHistoryList(agent_id);
+			commonService.loginCheckLogic(res);
+			return null;
 		}
-		model.addAttribute("topHistoryList", topHistoryList);
-		model.addAttribute("mainHistoryList", mainHistoryList);
-		return "page/xrayContents";
+
 	}
 
 	@GetMapping("/eventHistory/tableContents")
-	public String tableContents(Model model) {
+	public String tableContents(Model model, HttpServletResponse res) {
 		String agent_id_str = commonService.getCookie("agent_id");
-		int agent_id = Integer.parseInt(agent_id_str);
+		if(commonService.nullCheck(agent_id_str)) {
+			int agent_id = Integer.parseInt(agent_id_str);
 
-		List<EventHistory> topHistoryList = new ArrayList<>();
-		List<EventHistory> mainHistoryList = new ArrayList<>();
+			List<EventHistory> topHistoryList = new ArrayList<>();
+			List<EventHistory> mainHistoryList = new ArrayList<>();
 
-		String username = commonService.getCookie("username");
-		if (username.equals("admin")) {
-			// 슈퍼관리자 인경우 전체 보기
-			topHistoryList = eventHistoryService.mainTopHistoryList();
-			mainHistoryList = eventHistoryService.mainBottomHistoryList();
+			String username = commonService.getCookie("username");
+			if (username.equals("admin")) {
+				// 슈퍼관리자 인경우 전체 보기
+				topHistoryList = eventHistoryService.mainTopHistoryList();
+				mainHistoryList = eventHistoryService.mainBottomHistoryList();
+			} else {
+				topHistoryList = eventHistoryService.mainTopHistoryList(agent_id);
+				mainHistoryList = eventHistoryService.mainBottomHistoryList(agent_id);
+			}
+			model.addAttribute("topHistoryList", topHistoryList);
+			model.addAttribute("mainHistoryList", mainHistoryList);
+			return "page/tableContents";
 		} else {
-			topHistoryList = eventHistoryService.mainTopHistoryList(agent_id);
-			mainHistoryList = eventHistoryService.mainBottomHistoryList(agent_id);
+			commonService.loginCheckLogic(res);
+			return null;
 		}
-		model.addAttribute("topHistoryList", topHistoryList);
-		model.addAttribute("mainHistoryList", mainHistoryList);
-		return "page/tableContents";
+		
 	}
 
 }

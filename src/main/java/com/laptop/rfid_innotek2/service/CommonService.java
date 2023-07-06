@@ -2,6 +2,7 @@ package com.laptop.rfid_innotek2.service;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -482,6 +483,21 @@ public class CommonService {
 
 		return isOK;
 
+	}
+	
+	public void loginCheckLogic(HttpServletResponse res) { 
+		try {
+			res.setContentType("text/html; charset=euc-kr");
+			PrintWriter out = res.getWriter();
+			out.println("<script>");
+			out.println("alert('로그인 후 이용 가능 합니다.')");
+			out.println("history.back()");
+			out.println("</script>");
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 
 }

@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class UtilController {
 	
 	@GetMapping("/util/excel")
-	public String excel() {
-		
+	public String excel() { 
 		return "page/excel";
 	}
 

@@ -2,6 +2,8 @@ package com.laptop.rfid_innotek2.controller;
  
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,12 +36,19 @@ public class AdmMemberController {
 	}
 	 
 	@GetMapping("/admMember/admin3")
-	public String admin3(Model model) { 
-		List<AdmMember> admMemberList = admMemberService.admMemberList();
-		List<AdmAgent> admAgentList = admAgentService.admAgentList();
-		model.addAttribute(admMemberList);
-		model.addAttribute(admAgentList);
-		return "page/admin3";
+	public String admin3(Model model, HttpServletResponse res) { 
+		String agent = commonService.getCookie("agent_id");
+		if(commonService.nullCheck(agent)) {
+			List<AdmMember> admMemberList = admMemberService.admMemberList();
+			List<AdmAgent> admAgentList = admAgentService.admAgentList();
+			model.addAttribute(admMemberList);
+			model.addAttribute(admAgentList);
+			return "page/admin3";
+		} else {
+			commonService.loginCheckLogic(res);
+			return null;
+		}
+		
 	}
 	
 	@GetMapping("/admMember/logout")
