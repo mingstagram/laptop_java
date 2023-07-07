@@ -45,9 +45,7 @@ public class EventHistoryController {
 	AdmAgentService admAgentService;
 
 	@GetMapping("/eventHistory/main")
-	public String main(Model model, HttpServletResponse res) throws IOException {
-		// 들어온 시간
-		System.out.println("111");
+	public String main(Model model, HttpServletResponse res) throws IOException { 
 		String agent_id_str = commonService.getCookie("agent_id");
 
 		if (commonService.nullCheck(agent_id_str)) {
