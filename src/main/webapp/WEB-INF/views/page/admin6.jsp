@@ -56,7 +56,7 @@
 	</div> 
 </form>
 <script>
-	var field_list = new Array('agent', 'xray', 'antena_ip', 'device_status',
+	/* var field_list = new Array('agent', 'xray', 'antena_ip', 'device_status',
 			'antena_port', 'alert_ip', 'alert_port');
 	load();
 
@@ -76,7 +76,7 @@
 			}
 		}).fail(function() {
 		});
-	}
+	} */
 
 	function alert_test(agent, xray_id, lamp_type, warning_time, warning_type, sound_onoff) {
 		let data = {

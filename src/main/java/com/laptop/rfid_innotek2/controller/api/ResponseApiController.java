@@ -3,6 +3,7 @@ package com.laptop.rfid_innotek2.controller.api;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -116,7 +117,7 @@ public class ResponseApiController {
 
 			String time = "2023-07-12 20:00:00"; 
 			SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			Date date = timeFormat.parse(time);
+			Date date = timeFormat.parse(time); 
 			ResponseEntity<String> response = null;
 			ResponseEntity<String> response1 = null;
 			ResponseEntity<String> response2 = null;
@@ -126,28 +127,28 @@ public class ResponseApiController {
 				// Http 요청하기
 				response = rt
 						.exchange(
-//							"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
+							"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
 //							"https://nsp.lginnotek.com/api/external/rfidExpItemRequest", 
 //							"https://nspdev.lginnotek.com/api/external/rfidExpItemRequest",
-							"http://127.0.0.1:8001/api/receive",
+//							"http://127.0.0.1:8001/api/receive",
 								HttpMethod.POST, rfidInfo, String.class);
-				System.out.println("'ISMS' request url >>> " + response.getBody());
+				System.out.println("'ISMS' response data >>> " + response.getBody());
 				response1 = rt
 						.exchange(
 //							"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
-//							"https://nsp.lginnotek.com/api/external/rfidExpItemRequest", 
+							"https://nsp.lginnotek.com/api/external/rfidExpItemRequest", 
 //							"https://nspdev.lginnotek.com/api/external/rfidExpItemRequest",
-							"http://127.0.0.1:8001/api/receive",
+//							"http://127.0.0.1:8001/api/receive",
 								HttpMethod.POST, rfidInfo, String.class);
-				System.out.println("'NSP' request url >>> " + response1.getBody());
+				System.out.println("'NSP' response data >>> " + response1.getBody());
 				response2 = rt
 						.exchange(
 //							"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
 //							"https://nsp.lginnotek.com/api/external/rfidExpItemRequest", 
-//							"https://nspdev.lginnotek.com/api/external/rfidExpItemRequest",
-							"http://127.0.0.1:8001/api/receive",
+							"https://nspdev.lginnotek.com/api/external/rfidExpItemRequest",
+//							"http://127.0.0.1:8001/api/receive",
 								HttpMethod.POST, rfidInfo, String.class);
-				System.out.println("'NSPDEV' request url >>> " + response2.getBody());
+				System.out.println("'NSPDEV' response data >>> " + response2.getBody());
 				
 			} else {
 				System.out.println("지정시간 지남");
@@ -155,7 +156,7 @@ public class ResponseApiController {
 						.exchange(
 							"https://nsp.lginnotek.com/api/external/rfidExpItemRequest",  
 								HttpMethod.POST, rfidInfo, String.class);
-				System.out.println("'nsp' request url >>> " + response.getBody()); 
+				System.out.println("'NSP'  response data >>> " + response.getBody()); 
 				
 			} 
 			
