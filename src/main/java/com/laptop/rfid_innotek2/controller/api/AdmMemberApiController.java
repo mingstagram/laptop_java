@@ -34,12 +34,14 @@ public class AdmMemberApiController {
 		 String agent_id_str = "0";
 		AdmMember findMember = admMemberService.login_check(admMember);
 		
-		if(findMember != null) { 
+		if(findMember != null) {  
 			int agent_id = 0;
 			if(findMember.getAdmAgent() != null) {
 				agent_id = findMember.getAdmAgent().getId();
 				agent_id_str = String.valueOf(agent_id);
+				System.out.println(">> " + agent_id_str);
 			} 
+			
 			commonService.setCookie("username", findMember.getUsername());
 			commonService.setCookie("prop", findMember.getProp());
 			commonService.setCookie("agent_id", agent_id_str); 

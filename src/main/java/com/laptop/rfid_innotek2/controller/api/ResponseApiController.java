@@ -1,6 +1,7 @@
 package com.laptop.rfid_innotek2.controller.api;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -85,144 +86,114 @@ public class ResponseApiController {
 			String remoteAddr = commonService.getRemoteAddr(req);
 			log.info("□□□□□□□□□□ Agent IP : " + remoteAddr + "□□□□□□□□□□");
 			AdmAgent agent = admAgentService.findTopByAgentIp(remoteAddr);
-
-			barcode = laptop.getBarcode();
-			enpNo = laptop.getUser().getUserNo();
-			bizDeptCd = agent.getBizDeptCd();
-			RestTemplate rt = new RestTemplate();
-
-			// HttpHeader 오브젝트 생성
-			HttpHeaders headers = new HttpHeaders();
-			headers.add("Content-type", "application/json");
-
-			// HttpBody 오브젝트 생성
-//			MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-//			params.add("barcode", barcode);
-//			params.add("enpNo", enpNo);
-//			params.add("bizDeptCd", bizDeptCd); 
-//			
-//			// HttpBody를 하나의 오브젝트에 담기
-//			HttpEntity<MultiValueMap<String, String>> rfidInfo = 
-//					new HttpEntity<>(params, headers);
-
-			Map<String, String> param2 = new HashMap<>();
-			param2.put("barcode", barcode);
-			param2.put("enpNo", enpNo);
-			param2.put("bizDeptCd", bizDeptCd);
-
-			HttpEntity<Map<String, String>> rfidInfo = new HttpEntity<>(param2, headers);
 			
-			
-			long nowTime = System.currentTimeMillis();
+			if(agent != null) {
+				barcode = laptop.getBarcode();
+				enpNo = laptop.getUser().getUserNo();
+				bizDeptCd = agent.getBizDeptCd();
+				RestTemplate rt = new RestTemplate();
 
-			String time = "2023-07-12 20:00:00"; 
-			SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			Date date = timeFormat.parse(time); 
-			ResponseEntity<String> response = null;
-			ResponseEntity<String> response1 = null;
-			ResponseEntity<String> response2 = null;
-			
-			if(nowTime < date.getTime()) {
-				System.out.println("지정시간 안지남");
-				// Http 요청하기
-				response = rt
-						.exchange(
-							"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
-//							"https://nsp.lginnotek.com/api/external/rfidExpItemRequest", 
-//							"https://nspdev.lginnotek.com/api/external/rfidExpItemRequest",
-//							"http://127.0.0.1:8001/api/receive",
-								HttpMethod.POST, rfidInfo, String.class);
-				System.out.println("'ISMS' response data >>> " + response.getBody());
-				response1 = rt
-						.exchange(
-//							"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
-							"https://nsp.lginnotek.com/api/external/rfidExpItemRequest", 
-//							"https://nspdev.lginnotek.com/api/external/rfidExpItemRequest",
-//							"http://127.0.0.1:8001/api/receive",
-								HttpMethod.POST, rfidInfo, String.class);
-				System.out.println("'NSP' response data >>> " + response1.getBody());
-				response2 = rt
-						.exchange(
-//							"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev",
-//							"https://nsp.lginnotek.com/api/external/rfidExpItemRequest", 
-							"https://nspdev.lginnotek.com/api/external/rfidExpItemRequest",
-//							"http://127.0.0.1:8001/api/receive",
-								HttpMethod.POST, rfidInfo, String.class);
-				System.out.println("'NSPDEV' response data >>> " + response2.getBody());
+				// HttpHeader 오브젝트 생성
+				HttpHeaders headers = new HttpHeaders();
+				headers.add("Content-type", "application/json");
+
+				// HttpBody 오브젝트 생성
+//				MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+//				params.add("barcode", barcode);
+//				params.add("enpNo", enpNo);
+//				params.add("bizDeptCd", bizDeptCd); 
+//				
+//				// HttpBody를 하나의 오브젝트에 담기
+//				HttpEntity<MultiValueMap<String, String>> rfidInfo = 
+//						new HttpEntity<>(params, headers);
+
+				Map<String, String> param2 = new HashMap<>();
+				param2.put("barcode", barcode);
+				param2.put("enpNo", enpNo);
+				param2.put("bizDeptCd", bizDeptCd);
+
+				HttpEntity<Map<String, String>> rfidInfo = new HttpEntity<>(param2, headers);
+				ResponseEntity<String> response = null;
 				
-			} else {
-				System.out.println("지정시간 지남");
-				 response = rt
-						.exchange(
-							"https://nsp.lginnotek.com/api/external/rfidExpItemRequest",  
-								HttpMethod.POST, rfidInfo, String.class);
-				System.out.println("'NSP'  response data >>> " + response.getBody()); 
-				
-			} 
-			
-			
-			// Gson, Json Simple, ObjectMapper // 응답받은 JSON값 Object로 변경해주는 템플릿
-			ObjectMapper objectMapper = new ObjectMapper();
-			int agent_id = agent.getId();
-			String agent_id_str = String.valueOf(agent_id);
-			String lamp_type = "0";
-			String set3 = systemInfoService.systemInfo(agent_id).getSet3();
+				/*
+nsp운영				"https://nsp.lginnotek.com/api/external/rfidExpItemRequest", 
+isms					"http://165.186.83.46:8011/storage/storage/RetrieveStorageOutBarcodeCmd.dev"
+nsp개발				"https://nspdev.lginnotek.com/api/external/rfidExpItemRequest",
+내부api				"http://127.0.0.1:8001/api/receive",
+				*/
+				 
+				response = rt.exchange(
+						"https://nsp.lginnotek.com/api/external/rfidExpItemRequest",  
+						HttpMethod.POST,
+						rfidInfo, String.class);  
+				 
+				// Gson, Json Simple, ObjectMapper // 응답받은 JSON값 Object로 변경해주는 템플릿
+				ObjectMapper objectMapper = new ObjectMapper();
+				int agent_id = agent.getId();
+				String agent_id_str = String.valueOf(agent_id);
+				String lamp_type = "0";
+				String set3 = systemInfoService.systemInfo(agent_id).getSet3();
 
-			AdmSet set = admSetService.admSetInfo(agent_id);
+				AdmSet set = admSetService.admSetInfo(agent_id);
 
-			IsmsResDto resDto = objectMapper.readValue(response.getBody(), IsmsResDto.class);
-			if (resDto.getStorageOutFlag().equals("Y") || resDto.getStorageOutFlag().equals("S")) {
-				lamp_type = "2";
-				set3 = "1";
-			} else if (resDto.getStorageOutFlag().equals("N")) {
-				lamp_type = "1";
+				IsmsResDto resDto = objectMapper.readValue(response.getBody(), IsmsResDto.class);
+				if (resDto.getStorageOutFlag().equals("Y") || resDto.getStorageOutFlag().equals("S")) {
+					lamp_type = "2";
+					set3 = "1";
+				} else if (resDto.getStorageOutFlag().equals("N")) {
+					lamp_type = "1";
+				} else {
+					lamp_type = "0";
+				}
+
+				String warning_type = "";
+				String sound_onoff = "0";
+				if (set.getAlertRed().equals("rb"))
+					warning_type = "2";
+				else
+					warning_type = "1";
+
+				if (set.getAlertBlue().equals("gb"))
+					warning_type = "2";
+				else
+					warning_type = "1";
+
+				if (set.getAlertRedSound().equals("sound") || set.getAlertBlueSound().equals("sound"))
+					sound_onoff = "1";
+
+				HashMap<Object, Object> map = new HashMap<>();
+				map.put("xray_id", 1);
+				map.put("lamp_type", Integer.parseInt(lamp_type));
+				map.put("warning_time", Integer.parseInt(set3));
+				map.put("warning_type", Integer.parseInt(warning_type));
+				map.put("sound_onoff", Integer.parseInt(sound_onoff));
+
+				result.put("result_code", 0);
+				result.put("result", map);
+
+				User user = laptop.getUser();
+				String err_code = resDto.getErr_code();
+				if (user == null)
+					err_code = "300";
+
+				bizDeptCd = agent.getBizDeptCd();
+
+				String bizDeptText = commonService.getBizDeptText(bizDeptCd);
+
+				EventHistory history = EventHistory.builder().agent(agent_id_str).rfid(resData.getTag_name())
+						.result(resDto.getStorageOutFlag()).xray("1").antenaNo("1").errorCode(err_code)
+						.userNo(user.getUserNo()).username(user.getUsername()).barcode(laptop.getBarcode())
+						.bizDeptCd(bizDeptCd).bizDeptText(bizDeptText).build();
+
+				eventHistoryService.saveHistory(history);
+				log.info(laptop.getUser().getUsername() + " - " + resData.getTag_name() + " : "
+						+ resDto.getStorageOutFlag());
+				return result;
 			} else {
-				lamp_type = "0";
+				result.put("result_code", "1");
+				return result;
 			}
-
-			String warning_type = "";
-			String sound_onoff = "0";
-			if (set.getAlertRed().equals("rb"))
-				warning_type = "2";
-			else
-				warning_type = "1";
-
-			if (set.getAlertBlue().equals("gb"))
-				warning_type = "2";
-			else
-				warning_type = "1";
-
-			if (set.getAlertRedSound().equals("sound") || set.getAlertBlueSound().equals("sound"))
-				sound_onoff = "1";
-
-			HashMap<Object, Object> map = new HashMap<>();
-			map.put("xray_id", 1);
-			map.put("lamp_type", Integer.parseInt(lamp_type));
-			map.put("warning_time", Integer.parseInt(set3));
-			map.put("warning_type", Integer.parseInt(warning_type));
-			map.put("sound_onoff", Integer.parseInt(sound_onoff));
-
-			result.put("result_code", 0);
-			result.put("result", map);
-
-			User user = laptop.getUser();
-			String err_code = resDto.getErr_code();
-			if (user == null)
-				err_code = "300";
-
-			bizDeptCd = agent.getBizDeptCd();
-
-			String bizDeptText = commonService.getBizDeptText(bizDeptCd);
-
-			EventHistory history = EventHistory.builder().agent(agent_id_str).rfid(resData.getTag_name())
-					.result(resDto.getStorageOutFlag()).xray("1").antenaNo("1").errorCode(err_code)
-					.userNo(user.getUserNo()).username(user.getUsername()).barcode(laptop.getBarcode())
-					.bizDeptCd(bizDeptCd).bizDeptText(bizDeptText).build();
-
-			eventHistoryService.saveHistory(history);
-			log.info(laptop.getUser().getUsername() + " - " + resData.getTag_name() + " : "
-					+ resDto.getStorageOutFlag());
-			return result;
+			
 		} else {
 			result.put("result_code", "1");
 			log.info("RFID TAG 일치 데이터 없음. TAG_NAME : " + resData.getTag_name());

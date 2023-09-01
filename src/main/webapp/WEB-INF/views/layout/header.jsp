@@ -46,6 +46,7 @@
 											<li onclick="location.href='/admSet/admin1'">장비 설정</li>
 											<li onclick="location.href='/admMember/admin3'">관리자 관리</li>
 											<li onclick="location.href='/logCon/equip_test'">장비 로그</li>
+											<li onclick="location.href='/util/errorView'">서버 로그</li>
 											<!-- <li onclick=link("error_view.php")>실시간 로그 확인</li> -->
 										</ul></li>
 									<li onclick="location.href='/admMember/logout'"><span><img

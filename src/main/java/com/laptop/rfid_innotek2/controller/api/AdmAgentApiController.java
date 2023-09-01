@@ -30,7 +30,7 @@ public class AdmAgentApiController {
 	@Autowired
 	CommonService commonService;
 	
-	@PostMapping("/api/insertAdmAgent")
+	@PostMapping("/api/insertAdmAgent") 
 	public  ResponseDto<Integer> insertAdmAgent(@RequestBody AdmAgentSaveReqDto agentDto){
 		AdmAgent agent = admAgentService.saveAgent(agentDto);
 		int agent_id = 0;

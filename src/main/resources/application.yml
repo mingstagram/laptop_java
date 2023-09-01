@@ -6,7 +6,9 @@ server:
       charset: UTF-8
       enabled: true
       force: true  
-  
+file:
+  path: /home/mingook/nohup.out
+
 tomcat:
   ajp:
     port: 9001
@@ -49,3 +51,4 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false 
+      

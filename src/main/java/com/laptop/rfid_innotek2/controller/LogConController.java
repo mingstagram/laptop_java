@@ -25,7 +25,7 @@ public class LogConController {
 	
 	@GetMapping("/logCon/equip_test")
 	public String equip_test(Model model, HttpServletResponse res) {
-		String agent_id = commonService.getCookie("agent_id"); 
+		String agent_id = commonService.getCookie("agent_id");  
 		if(commonService.nullCheck(agent_id)) {
 			String username = commonService.getCookie("username");
 			List<LogCon> logConList = new ArrayList<>();

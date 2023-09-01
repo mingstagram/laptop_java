@@ -1,6 +1,9 @@
 package com.laptop.rfid_innotek2.controller.api;
 
-import java.net.URLDecoder;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,14 +12,15 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.ss.usermodel.Workbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,28 +28,22 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.laptop.rfid_innotek2.dto.ExcelUploadDto;
 import com.laptop.rfid_innotek2.dto.LaptopSaveReqDto;
 import com.laptop.rfid_innotek2.dto.LaptopSearchListInterface;
 import com.laptop.rfid_innotek2.dto.ResponseDto;
 import com.laptop.rfid_innotek2.model.EventHistory;
-import com.laptop.rfid_innotek2.model.LaptopInfo;
-import com.laptop.rfid_innotek2.model.PageMaker;
 import com.laptop.rfid_innotek2.service.CommonService;
 import com.laptop.rfid_innotek2.service.EventHistoryService;
 import com.laptop.rfid_innotek2.service.LaptopInfoService;
 import com.laptop.rfid_innotek2.service.UserService;
+import com.laptop.rfid_innotek2.util.UtilService;
 
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RestController
-public class UtilApiController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(UtilApiController.class); 
-
-
-	
+public class UtilApiController { 
+ 
 	@Autowired
 	CommonService commonService; 
 	
@@ -57,6 +55,9 @@ public class UtilApiController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Value("${file.path}")
+    private String filePath;
 	
 	@GetMapping("/api/util/excelDownload")
 	public ResponseDto<Integer> excelDownload(HttpServletRequest request, HttpServletResponse response,
@@ -145,7 +146,33 @@ public class UtilApiController {
 		
 		return result;
 	}
-
-
 	
+	@GetMapping("/api/util/logDownload")
+	public Object downloadFile(HttpServletResponse res) throws IOException {
+        // 다운로드할 파일 경로
+		// /home/mingook/nohup.out   
+        if(UtilService.isFilePathValid(filePath)) {
+        	InputStream inputStream = new FileInputStream(filePath);
+            InputStreamResource resource = new InputStreamResource(inputStream);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=errorLog.log");
+
+            return ResponseEntity
+                    .ok()
+                    .headers(headers)
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .body(resource);
+        } else {
+        	res.setContentType("text/html; charset=euc-kr");
+        	PrintWriter out = res.getWriter();
+			out.println("<script>");
+			out.println("alert('파일이 존재하지 않습니다.')");
+			out.println("history.back()");
+			out.println("</script>");
+			out.flush();
+			return null;
+        }
+        
+    }
 }
