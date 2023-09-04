@@ -149,6 +149,8 @@ public class UtilApiController {
 	
 	@GetMapping("/api/util/logDownload")
 	public Object downloadFile(HttpServletResponse res) throws IOException {
+		String currentDate = UtilService.currentDateFormat("yyyyMMdd");
+		
         // 다운로드할 파일 경로
 		// /home/mingook/nohup.out   
         if(UtilService.isFilePathValid(filePath)) {
@@ -156,7 +158,7 @@ public class UtilApiController {
             InputStreamResource resource = new InputStreamResource(inputStream);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=errorLog.log");
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Log_" + currentDate + ".log");
 
             return ResponseEntity
                     .ok()

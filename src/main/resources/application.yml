@@ -7,7 +7,7 @@ server:
       enabled: true
       force: true  
 file:
-  path: /home/mingook/nohup.out
+  path: /var/www/build/20230904/nohup.out
 
 tomcat:
   ajp:
